@@ -2,7 +2,7 @@ import React from 'react';
 
 import './App.css';
 import { Header } from './Header';
-import { Articla } from './Article';
+import { Article } from './Article';
 import { Log } from './log/types';
 
 const MONTH = '2019-05';
@@ -20,7 +20,7 @@ const App: React.FC = () => {
       <Header
         month={MONTH}
       />
-      <Articla
+      <Article
         logs={LOGS}
       />
     </div>

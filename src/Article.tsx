@@ -7,7 +7,7 @@ export interface ArticlaProps {
   logs: Log[];
 }
 
-export const Articla: React.FC<ArticlaProps> = props => {
+export const Article: React.FC<ArticlaProps> = props => {
   const logs = props.logs.map((log, i) => {
     const startedAt = log && 'startedAt' in log ? log.startedAt : undefined;
     const finishedAt = log && 'finishedAt' in log ? log.finishedAt : undefined;
