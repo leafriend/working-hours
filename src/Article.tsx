@@ -2,6 +2,7 @@ import React from 'react';
 
 import './Article.scss';
 import { Log } from './log/types';
+import { DailyLog } from './DailyLog';
 
 export interface ArticlaProps {
   logs: Log[];
@@ -9,35 +10,13 @@ export interface ArticlaProps {
 
 export const Article: React.FC<ArticlaProps> = props => {
   const logs = props.logs.map((log, i) => {
-    const startedAt = log && 'startedAt' in log ? log.startedAt : undefined;
-    const finishedAt = log && 'finishedAt' in log ? log.finishedAt : undefined;
-
+    const date = i + 1;
     return (
-      <tr key={i}>
-        <td>{i + 1}</td>
-        <td>
-          <input
-            readOnly
-            type="time"
-            value={startedAt}
-          />
-        </td>
-        <td>
-          <input
-            readOnly
-            type="time"
-            value={finishedAt}
-          />
-        </td>
-        <td>
-          <label>
-            <input type="checkbox" />
-            Leave
-          </label>
-        </td>
-        <td>00:00</td>
-        <td>00:00</td>
-      </tr>
+      <DailyLog
+        key={i}
+        date={date}
+        log={log}
+      />
     );
   });
   return (
