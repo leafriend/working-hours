@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import './App.css';
 import { Article } from './Article';
 import { Header } from './Header';
+import { Log } from './log/types';
 import { LocalLogsSet } from './storage/local';
 import { LogsSet } from './storage/types';
 
@@ -14,6 +15,11 @@ const App: React.FC = () => {
   const [yearMonth, setYearMonth] = useState(YEAR_MONTH);
   const [logs, setLogs] = useState(logsSet.getLogs(yearMonth));
 
+  function handleLogsChange(logs: Log[]) {
+    setLogs(logs);
+    logsSet.setLogs(yearMonth, logs);
+  }
+
   return (
     <div className="App">
       <Header
@@ -22,7 +28,7 @@ const App: React.FC = () => {
       <Article
         yearMonth={yearMonth}
         logs={logs}
-        onLogsChange={_ => { }}
+        onLogsChange={handleLogsChange}
       />
     </div>
   );
