@@ -1,8 +1,8 @@
 import React from 'react';
 
 import './App.css';
-import { Header } from './Header';
 import { Article } from './Article';
+import { Header } from './Header';
 import { Log, LeaveType } from './log/types';
 
 const YEAR_MONTH = '2019-05';
