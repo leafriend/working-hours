@@ -3,7 +3,7 @@ import React from 'react';
 import { Log, LeaveType } from './log/types';
 
 export interface DailyLogProps {
-  date: number;
+  date: Date;
   log: Log;
 }
 
@@ -15,7 +15,7 @@ export const DailyLog: React.FC<DailyLogProps> = props => {
 
   return (
     <tr>
-      <td>{props.date}</td>
+      <td>{props.date.getDate()}</td>
       <td>
       <select
           value={leaveType}

@@ -20,6 +20,7 @@ const App: React.FC = () => {
         yearMonth={YEAR_MONTH}
       />
       <Article
+        yearMonth={yearMonth}
         logs={logs}
         />
     </div>
