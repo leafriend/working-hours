@@ -9,9 +9,10 @@ export interface DailyLogProps {
 
 export const DailyLog: React.FC<DailyLogProps> = props => {
   const log = props.log;
+
   const leaveType = log.leaveType;
-  const startedAt = log && 'startedAt' in log ? log.startedAt : undefined;
-  const finishedAt = log && 'finishedAt' in log ? log.finishedAt : undefined;
+  const startedAt = log.startedAt || '';
+  const finishedAt = log.finishedAt || '';
 
   return (
     <tr>
