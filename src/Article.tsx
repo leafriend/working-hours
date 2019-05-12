@@ -25,9 +25,9 @@ export const Article: React.FC<ArticlaProps> = props => {
         <thead>
           <tr>
             <th>Date</th>
+            <th>Leave</th>
             <th>Started</th>
             <th>Finished</th>
-            <th>Leave</th>
             <th>Working</th>
             <th>Balance</th>
           </tr>
