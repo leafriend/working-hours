@@ -11,12 +11,16 @@ export function zerofill(i: number): string {
 }
 
 export function convertTimeToMinutes(time: string): number {
-  const [hours, minutes] = time.split(':').map(str => parseInt(str, 10));
-  return hours * 60 + minutes;
+  const sign = time.charAt(0) === '-' ? -1 : 1;
+  const abs = sign < 0 ? time.substring(1) : time;
+  const [hours, minutes] = abs.split(':').map(str => parseInt(str, 10));
+  return sign * (hours * 60 + minutes);
 }
 
 export function convertMinutesToTime(minutes: number): string {
-  const hours = Math.floor(minutes / 60);
-  const rest = minutes - (hours * 60);
-  return `${zerofill(hours)}:${zerofill(rest)}`;
+  const sign = minutes < 0 ? '-' : ''
+  const abs = Math.abs(minutes);
+  const hours = Math.floor(abs / 60);
+  const rest = abs - (hours * 60);
+  return `${sign}${zerofill(hours)}:${zerofill(rest)}`;
 }
