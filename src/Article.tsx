@@ -15,15 +15,23 @@ export const Article: React.FC<ArticlaProps> = props => {
 
   const logs = props.logs.map((log, i) => {
     const date = i + 1;
+
+    function handleLogChange(log: Log) {
+      const logs = props.logs.slice();
+      logs[i] = log;
+      props.onLogsChange(logs);
+    }
+
     return (
       <DailyLog
         key={i}
         date={new Date(year, month - 1, date)}
         log={log}
-        onLogChange={_ => {}}
+        onLogChange={handleLogChange}
       />
     );
   });
+
   return (
     <article>
       <table>
