@@ -7,6 +7,7 @@ import { DailyLog } from './DailyLog';
 export interface ArticlaProps {
   yearMonth: string;
   logs: Log[];
+  onLogsChange: (logs: Log[]) => void,
 }
 
 export const Article: React.FC<ArticlaProps> = props => {

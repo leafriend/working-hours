@@ -22,7 +22,8 @@ const App: React.FC = () => {
       <Article
         yearMonth={yearMonth}
         logs={logs}
-        />
+        onLogsChange={_ => { }}
+      />
     </div>
   );
 }
