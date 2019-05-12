@@ -3,6 +3,7 @@ import React from 'react';
 import './Article.scss';
 import { Log } from './log/types';
 import { DailyLog } from './DailyLog';
+import { convertTimeToMinutes, convertMinutesToTime } from './lib';
 
 export interface ArticlaProps {
   yearMonth: string;
@@ -19,7 +20,17 @@ export const Article: React.FC<ArticlaProps> = props => {
     function handleLogChange(log: Log) {
       const logs = props.logs.slice();
       logs[i] = log;
-      props.onLogsChange(logs);
+      let balance = 0;
+      props.onLogsChange(logs.map(log => {
+        if (log.working) {
+          const working = convertTimeToMinutes(log.working) - (8 * 60);
+          balance += working;
+        }
+        return {
+          ...log,
+          balance: convertMinutesToTime(balance),
+        };
+      }));
     }
 
     return (
