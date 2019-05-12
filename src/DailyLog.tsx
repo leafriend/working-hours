@@ -7,6 +7,9 @@ export interface DailyLogProps {
   log: Log;
 }
 
+const SATURDAY = 6;
+const SUNDAY = 0;
+
 export const DailyLog: React.FC<DailyLogProps> = props => {
   const log = props.log;
 
@@ -14,11 +17,16 @@ export const DailyLog: React.FC<DailyLogProps> = props => {
   const startedAt = log.startedAt || '';
   const finishedAt = log.finishedAt || '';
 
+  const weekday = props.date.getDay();
+  const disabled = weekday === SATURDAY || weekday === SUNDAY;
+  const readOnly = leaveType === LeaveType.FULL;
+
   return (
     <tr>
       <td>{props.date.getDate()}</td>
       <td>
-      <select
+        <select
+          disabled={disabled}
           value={leaveType}
         >
           <option value={LeaveType.WORK}>Work</option>
@@ -28,14 +36,16 @@ export const DailyLog: React.FC<DailyLogProps> = props => {
       </td>
       <td>
         <input
-          readOnly
+          disabled={disabled}
+          readOnly={disabled ? false : readOnly}
           type="time"
           value={startedAt}
         />
       </td>
       <td>
         <input
-          readOnly
+          disabled={disabled}
+          readOnly={disabled ? false : (readOnly || startedAt === '')}
           type="time"
           value={finishedAt}
         />
