@@ -19,6 +19,7 @@ export const Article: React.FC<ArticlaProps> = props => {
         key={i}
         date={new Date(year, month - 1, date)}
         log={log}
+        onLogChange={_ => {}}
       />
     );
   });
