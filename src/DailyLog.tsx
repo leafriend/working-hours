@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Log, LeaveType } from './log/types';
+import { convertMinutesToTime, convertTimeToMinutes } from './lib';
 
 export interface DailyLogProps {
   date: Date;
@@ -23,10 +24,29 @@ export const DailyLog: React.FC<DailyLogProps> = props => {
   const readOnly = props.log.leaveType === LeaveType.FULL;
 
   function handleChange(partial: PartialLog) {
-    props.onLogChange({
+    const log = {
       ...props.log,
       ...partial,
-    });
+    };
+
+    const working = (() => {
+      if (log.startedAt && log.finishedAt) {
+        const startedAt = convertTimeToMinutes(log.startedAt);
+        const finishedAt = convertTimeToMinutes(log.finishedAt);
+        const total = finishedAt - startedAt;
+
+        const working
+          = (total >= (8 + 1 + 4 + 0.5) * 60)
+            ? (total - 90)
+            : total - 60
+          ;
+        return convertMinutesToTime(working);
+      } else {
+        return undefined;
+      }
+    })();
+
+    props.onLogChange({ ...log, working });
   }
 
   return (
