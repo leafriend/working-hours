@@ -34,6 +34,8 @@ export class LocalLogsSet implements LogsSet {
       leaveType: LeaveType.WORK,
       startedAt: undefined,
       finishedAt: undefined,
+      working: undefined,
+      balance: '00:00',
     });
     this.setLogs(yearMonth, logs);
     return logs;
