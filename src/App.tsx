@@ -5,7 +5,7 @@ import { Header } from './Header';
 import { Article } from './Article';
 import { Log, LeaveType } from './log/types';
 
-const MONTH = '2019-05';
+const YEAR_MONTH = '2019-05';
 
 const EMPTY_LOG: Log = {
   leaveType: LeaveType.WORK,
@@ -24,7 +24,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <Header
-        month={MONTH}
+        yearMonth={YEAR_MONTH}
       />
       <Article
         logs={LOGS}
