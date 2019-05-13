@@ -35,11 +35,18 @@ export const DailyLog: React.FC<DailyLogProps> = props => {
         const finishedAt = convertTimeToMinutes(log.finishedAt);
         const total = finishedAt - startedAt;
 
-        const working
-          = (total >= (8 + 1 + 4 + 0.5) * 60)
-            ? (total - 90)
-            : total - 60
-          ;
+        const working = (() => {
+          if (total < (4 + 0.5) * 60) {
+            return total;
+          } else if (total < (8 + 1) * 60) {
+            return total - 30;
+          } else if (total < (8 + 1 + 4 + 0.5) * 60) {
+            return total - 60;
+          } else {
+            return total - 90;
+          }
+        })()
+
         return convertMinutesToTime(working);
       } else {
         return undefined;

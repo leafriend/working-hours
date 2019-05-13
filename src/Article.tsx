@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './Article.scss';
-import { Log } from './log/types';
+import { Log, LeaveType } from './log/types';
 import { DailyLog } from './DailyLog';
 import { convertTimeToMinutes, convertMinutesToTime } from './lib';
 
@@ -23,7 +23,8 @@ export const Article: React.FC<ArticlaProps> = props => {
       let balance = 0;
       props.onLogsChange(logs.map(log => {
         if (log.working) {
-          const working = convertTimeToMinutes(log.working) - (8 * 60);
+          const minimum = (log.leaveType === LeaveType.HALF ? 4 : 8) * 60;
+          const working = convertTimeToMinutes(log.working) - minimum;
           balance += working;
         }
         return {
