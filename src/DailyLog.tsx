@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Log, LeaveType, LogSource } from './log/types';
+import { zerofill } from './lib';
 
 export interface DailyLogProps {
   holidays: string[];
@@ -25,7 +26,10 @@ export const DailyLog: React.FC<DailyLogProps> = props => {
   const isHoliday = props.holidays.indexOf(log.date) >= 0;
   const isSunday = weekday === SUNDAY;
   const isSaturday = weekday === SATURDAY;
-  const isToday = new Date().toISOString().substring(0, 10) === log.date;
+
+  const now = new Date();
+  const today = `${now.getFullYear()}-${zerofill(now.getMonth() + 1)}-${zerofill(now.getDate())}`
+  const isToday = today === log.date;
 
   const disabled = isHoliday || isSunday || isSaturday;
   const readOnly = log.leaveType === LeaveType.FULL;
