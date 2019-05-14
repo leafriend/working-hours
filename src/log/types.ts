@@ -1,4 +1,4 @@
-import { convertMinutesToTime, convertTimeToMinutes } from "../lib";
+import { convertMinutesToTime, convertTimeToMinutes, Nullable } from "../lib";
 
 export enum LeaveType {
   WORK = 'WORK',
@@ -85,6 +85,10 @@ export class Log {
 
 }
 
-export function toSource({ leaveType, startedAt, finishedAt }: LogSource): LogSource {
+export function toSource(source: Nullable<LogSource>): Nullable<LogSource> {
+  if (source === null) {
+    return null;
+  }
+  const { leaveType, startedAt, finishedAt } = source;
   return { leaveType, startedAt, finishedAt };
 }

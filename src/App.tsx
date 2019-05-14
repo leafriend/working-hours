@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import './App.css';
 import { Article } from './Article';
 import { Header } from './Header';
-import { Log, LogSource, toSource, BalanceHolder } from './log/types';
+import { Nullable } from './lib';
+import { Log, LogSource, toSource, BalanceHolder, LeaveType } from './log/types';
 import { LocalLogsSet } from './storage/local';
 import { LogsSet } from './storage/types';
 
@@ -11,13 +12,16 @@ const YEAR_MONTH = '2019-05';
 
 const logsSet: LogsSet = new LocalLogsSet();
 
-function convertLogSourcesToLogs(sources: LogSource[]): Log[] {
+function convertLogSourcesToLogs(sources: (Nullable<LogSource>)[]): Log[] {
   let balanceHolder: BalanceHolder = {
     balance: '00:00',
   };
   const logs = Array(sources.length);
   sources.forEach((source, i) => {
-    const log = new Log(source, balanceHolder);
+    const refined = source ? source : {
+      leaveType: LeaveType.WORK,
+    };
+    const log = new Log(refined, balanceHolder);
     logs[i] = log;
     balanceHolder = log;
   })
