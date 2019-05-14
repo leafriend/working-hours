@@ -27,12 +27,12 @@ export const Article: React.FC<ArticlaProps> = props => {
       <table>
         <thead>
           <tr>
-            <th>Date</th>
+            <th className="date">Date</th>
             <th>Leave</th>
-            <th>Started</th>
-            <th>Finished</th>
-            <th>Working</th>
-            <th>Balance</th>
+            <th className="time">Started</th>
+            <th className="time">Finished</th>
+            <th className="time">Working</th>
+            <th className="time">Balance</th>
           </tr>
         </thead>
         <tbody>

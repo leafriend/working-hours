@@ -1,5 +1,40 @@
 article {
+  table {
+    border-collapse: collapse;
+    th, td {
+      border-collapse: collapse;
+      height: 2em;
+    }
+    td {
+      padding-right: 0.25em;
+    }
+  }
+  td.date {
+    text-align: right;
+  }
+  td.time {
+    text-align: right;
+  }
+  tr.holiday, tr.sunday {
+    background-color: rgb(255, 225, 225);
+  }
+  tr.saturday {
+    background-color: rgb(225, 240, 255);
+  }
+  tr.today {
+    background-color: rgb(255, 255, 210);
+    td {
+      border-top: 1px solid rgb(153, 153, 51);
+      border-bottom: 1px solid rgb(153, 153, 51);
+    }
+    td:first-child {
+      border-left: 1px solid rgb(153, 153, 51);
+    }
+    td:last-child {
+      border-right: 1px solid rgb(153, 153, 51);
+    }
+  }
   input[type="time"] {
-    width: 6em;
+    width: 6.5em;
   }
 }

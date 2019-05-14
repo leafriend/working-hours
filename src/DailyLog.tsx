@@ -21,7 +21,13 @@ export const DailyLog: React.FC<DailyLogProps> = props => {
 
   const date = new Date(log.date);
   const weekday = date.getDay();
-  const disabled = weekday === SATURDAY || weekday === SUNDAY;
+
+  const isHoliday = props.holidays.indexOf(log.date) >= 0;
+  const isSunday = weekday === SUNDAY;
+  const isSaturday = weekday === SATURDAY;
+  const isToday = new Date().toISOString().substring(0, 10) === log.date;
+
+  const disabled = isHoliday || isSunday || isSaturday;
   const readOnly = log.leaveType === LeaveType.FULL;
 
   function handleChange(partial: PartialLog) {
@@ -34,8 +40,15 @@ export const DailyLog: React.FC<DailyLogProps> = props => {
   }
 
   return (
-    <tr>
-      <td>{date.getDate()}</td>
+    <tr className={[
+      isHoliday ? 'holiday' : (
+        isSunday ? 'saturday' : (
+          isSaturday ? 'sunday' : ''
+        )
+      ),
+      isToday ? 'today' : '',
+    ].join(' ').replace(/ +/g, ' ').trim()}>
+      <td className="date">{date.getDate()}</td>
       <td>
         <select
           disabled={disabled}
@@ -47,7 +60,7 @@ export const DailyLog: React.FC<DailyLogProps> = props => {
           <option value={LeaveType.HALF}>Half</option>
         </select>
       </td>
-      <td>
+      <td className="time">
         <input
           disabled={disabled}
           readOnly={disabled ? false : readOnly}
@@ -56,7 +69,7 @@ export const DailyLog: React.FC<DailyLogProps> = props => {
           onChange={e => handleChange({ startedAt: e.target.value || undefined })}
         />
       </td>
-      <td>
+      <td className="time">
         <input
           disabled={disabled}
           readOnly={disabled ? false : (readOnly || log.startedAt === '')}
@@ -65,8 +78,8 @@ export const DailyLog: React.FC<DailyLogProps> = props => {
           onChange={e => handleChange({ finishedAt: e.target.value || undefined })}
         />
       </td>
-      <td>{log.working || '--:--'}</td>
-      <td>{log.balance}</td>
+      <td className="time">{log.working || '--:--'}</td>
+      <td className="time">{log.balance}</td>
     </tr>
   );
 
