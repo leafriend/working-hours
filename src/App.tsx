@@ -12,7 +12,7 @@ const YEAR_MONTH = '2019-05';
 
 const logsSet: LogsSet = new LocalLogsSet();
 
-function convertLogSourcesToLogs(yearMonth: string, sources: (Nullable<LogSource>)[]): Log[] {
+function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>[]): Log[] {
   let balanceHolder: BalanceHolder = {
     balance: '00:00',
   };

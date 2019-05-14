@@ -4,7 +4,7 @@ import { LogSource, toSource } from "../log/types";
 import { LogsSet } from "./types";
 
 interface Hash {
-  [yearMonth: string]: (Nullable<LogSource>)[];
+  [yearMonth: string]: Nullable<LogSource>[];
 }
 
 const LOCAL_STORAGE_KEY = 'logsSet';
@@ -22,7 +22,7 @@ export class LocalLogsSet implements LogsSet {
     }
   }
 
-  public getLogSources(yearMonth: string): (Nullable<LogSource>)[] {
+  public getLogSources(yearMonth: string): Nullable<LogSource>[] {
     if (yearMonth in this.hash) {
       return this.hash[yearMonth];
     }
@@ -35,7 +35,7 @@ export class LocalLogsSet implements LogsSet {
     return sources;
   }
 
-  public setLogSources(yearMonth: string, sources: (Nullable<LogSource>)[]): void {
+  public setLogSources(yearMonth: string, sources: Nullable<LogSource>[]): void {
     this.hash[yearMonth] = sources.map(toSource);
 
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.hash));
