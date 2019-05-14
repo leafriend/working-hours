@@ -46,8 +46,8 @@ export const DailyLog: React.FC<DailyLogProps> = props => {
   return (
     <tr className={[
       isHoliday ? 'holiday' : (
-        isSunday ? 'saturday' : (
-          isSaturday ? 'sunday' : ''
+        isSunday ? 'sunday' : (
+          isSaturday ? 'saturday' : ''
         )
       ),
       isToday ? 'today' : '',
