@@ -22,7 +22,7 @@ export class LocalLogsSet implements LogsSet {
     }
   }
 
-  public getLogs(yearMonth: string): (Nullable<LogSource>)[] {
+  public getLogSources(yearMonth: string): (Nullable<LogSource>)[] {
     if (yearMonth in this.hash) {
       return this.hash[yearMonth];
     }
@@ -30,13 +30,13 @@ export class LocalLogsSet implements LogsSet {
     const [year, month] = yearMonth.split('-').map(str => parseInt(str));
     const lastDate = lastDateOf(year, month);
 
-    const logs = Array<LogSource>(lastDate);
-    this.setLogs(yearMonth, logs);
-    return logs;
+    const sources = Array<LogSource>(lastDate);
+    this.setLogSources(yearMonth, sources);
+    return sources;
   }
 
-  public setLogs(yearMonth: string, logs: (Nullable<LogSource>)[]): void {
-    this.hash[yearMonth] = logs.map(toSource);
+  public setLogSources(yearMonth: string, sources: (Nullable<LogSource>)[]): void {
+    this.hash[yearMonth] = sources.map(toSource);
 
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.hash));
   }
