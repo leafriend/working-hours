@@ -11,12 +11,10 @@ export interface ArticlaProps {
 }
 
 export const Article: React.FC<ArticlaProps> = props => {
-  const [year, month] = props.yearMonth.split('-').map(str => parseInt(str, 10));
 
   const logs = props.logs.map((log, i) => (
     <DailyLog
       key={i}
-      date={new Date(year, month - 1, i + 1)}
       log={log}
       onLogChange={source => props.onLogsChange(i, source)}
     />

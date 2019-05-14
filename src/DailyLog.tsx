@@ -3,7 +3,6 @@ import React from 'react';
 import { Log, LeaveType, LogSource } from './log/types';
 
 export interface DailyLogProps {
-  date: Date;
   log: Log;
   onLogChange: (source: LogSource) => void,
 }
@@ -17,8 +16,10 @@ const SATURDAY = 6;
 const SUNDAY = 0;
 
 export const DailyLog: React.FC<DailyLogProps> = props => {
+  console.log(`DailyLog() <<< `, props);
 
-  const weekday = props.date.getDay();
+  const date = new Date(props.log.date);
+  const weekday = date.getDay();
   const disabled = weekday === SATURDAY || weekday === SUNDAY;
   const readOnly = props.log.leaveType === LeaveType.FULL;
 
@@ -33,7 +34,7 @@ export const DailyLog: React.FC<DailyLogProps> = props => {
 
   return (
     <tr>
-      <td>{props.date.getDate()}</td>
+      <td>{date.getDate()}</td>
       <td>
         <select
           disabled={disabled}
