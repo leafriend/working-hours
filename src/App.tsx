@@ -30,7 +30,9 @@ function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>
 }
 
 const App: React.FC = () => {
-  const [logs, setLogs] = useState(convertLogSourcesToLogs(YEAR_MONTH, logsSet.getLogSources(YEAR_MONTH)));
+  const sources = logsSet.getLogSources(YEAR_MONTH);
+  const defaultLogs = convertLogSourcesToLogs(YEAR_MONTH, sources);
+  const [logs, setLogs] = useState(defaultLogs);
 
   function handleLogsChange(i: number, source: LogSource) {
     const sources = logs.map(toSource);
