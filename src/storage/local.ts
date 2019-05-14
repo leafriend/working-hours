@@ -30,7 +30,7 @@ export class LocalLogsSet implements LogsSet {
     const [year, month] = yearMonth.split('-').map(str => parseInt(str));
     const lastDate = lastDateOf(year, month);
 
-    const sources = Array<LogSource>(lastDate);
+    const sources = Array<Nullable<LogSource>>(lastDate).fill(null);
     this.setLogSources(yearMonth, sources);
     return sources;
   }
