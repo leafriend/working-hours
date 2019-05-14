@@ -90,5 +90,8 @@ export function toSource(source: Nullable<LogSource>): Nullable<LogSource> {
     return null;
   }
   const { leaveType, startedAt, finishedAt } = source;
+  if (leaveType === LeaveType.WORK && startedAt === undefined && finishedAt === undefined) {
+    return null
+  }
   return { leaveType, startedAt, finishedAt };
 }
