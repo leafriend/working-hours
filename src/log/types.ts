@@ -7,6 +7,7 @@ export enum LeaveType {
 }
 
 export interface LogSource {
+  readonly date: string;
   readonly leaveType: LeaveType;
   readonly startedAt?: string;
   readonly finishedAt?: string;
@@ -18,6 +19,8 @@ export interface BalanceHolder {
 
 export class Log {
 
+  public readonly date: string;
+
   public readonly leaveType: LeaveType;
 
   public readonly startedAt?: string;
@@ -28,6 +31,7 @@ export class Log {
     log: LogSource,
     private readonly balanceHolder: BalanceHolder,
   ) {
+    this.date = log.date;
     this.leaveType = log.leaveType;
     this.startedAt = log.startedAt;
     this.finishedAt = log.finishedAt;
@@ -89,9 +93,9 @@ export function toSource(source: Nullable<LogSource>): Nullable<LogSource> {
   if (source === null) {
     return null;
   }
-  const { leaveType, startedAt, finishedAt } = source;
+  const { date, leaveType, startedAt, finishedAt } = source;
   if (leaveType === LeaveType.WORK && startedAt === undefined && finishedAt === undefined) {
     return null
   }
-  return { leaveType, startedAt, finishedAt };
+  return { date, leaveType, startedAt, finishedAt };
 }
