@@ -9,6 +9,10 @@ import { LocalLogsSet } from './storage/local';
 import { LogsSet } from './storage/types';
 
 const YEAR_MONTH = '2019-05';
+const HOLIDAYS = [
+  '2019-05-01',
+  '2019-05-06',
+];
 
 const logsSet: LogsSet = new LocalLogsSet();
 
@@ -49,6 +53,7 @@ const App: React.FC = () => {
       />
       <Article
         yearMonth={YEAR_MONTH}
+        holidays={HOLIDAYS}
         logs={logs}
         onLogsChange={handleLogsChange}
       />

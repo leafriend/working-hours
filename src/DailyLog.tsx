@@ -3,6 +3,7 @@ import React from 'react';
 import { Log, LeaveType, LogSource } from './log/types';
 
 export interface DailyLogProps {
+  holidays: string[];
   log: Log;
   onLogChange: (source: LogSource) => void,
 }
