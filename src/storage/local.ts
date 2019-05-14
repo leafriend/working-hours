@@ -1,10 +1,10 @@
 import { lastDateOf } from "../lib";
-import { Log, LeaveType } from "../log/types";
+import { LeaveType, LogSource, toSource } from "../log/types";
 
 import { LogsSet } from "./types";
 
 interface Hash {
-  [yearMonth: string]: Log[];
+  [yearMonth: string]: LogSource[];
 }
 
 const LOCAL_STORAGE_KEY = 'logsSet';
@@ -22,7 +22,7 @@ export class LocalLogsSet implements LogsSet {
     }
   }
 
-  public getLogs(yearMonth: string): Log[] {
+  public getLogs(yearMonth: string): LogSource[] {
     if (yearMonth in this.hash) {
       return this.hash[yearMonth];
     }
@@ -30,19 +30,17 @@ export class LocalLogsSet implements LogsSet {
     const [year, month] = yearMonth.split('-').map(str => parseInt(str));
     const lastDate = lastDateOf(year, month);
 
-    const logs = Array<Log>(lastDate).fill({
+    const logs = Array<LogSource>(lastDate).fill({
       leaveType: LeaveType.WORK,
       startedAt: undefined,
       finishedAt: undefined,
-      working: undefined,
-      balance: '00:00',
     });
     this.setLogs(yearMonth, logs);
     return logs;
   }
 
-  public setLogs(yearMonth: string, logs: Log[]): void {
-    this.hash[yearMonth] = logs;
+  public setLogs(yearMonth: string, logs: LogSource[]): void {
+    this.hash[yearMonth] = logs.map(toSource);
 
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.hash));
   }
