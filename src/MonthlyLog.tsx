@@ -16,12 +16,12 @@ export const MonthlyLog: React.FC<ArticlaProps> = props => {
     <table className="monthly-logs">
       <thead>
         <tr>
-          <th className="date">Date</th>
+          <th className="date">D.</th>
           <th>Leave</th>
           <th className="time">Started</th>
           <th className="time">Finished</th>
-          <th className="time">Working</th>
-          <th className="time">Balance</th>
+          <th className="time">Work</th>
+          <th className="time">Bal.</th>
         </tr>
       </thead>
       <tbody>
