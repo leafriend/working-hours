@@ -51,12 +51,14 @@ const App: React.FC = () => {
       <Header
         yearMonth={YEAR_MONTH}
       />
-      <Article
-        yearMonth={YEAR_MONTH}
-        holidays={HOLIDAYS}
-        logs={logs}
-        onLogsChange={handleLogsChange}
-      />
+      <article>
+        <Article
+          yearMonth={YEAR_MONTH}
+          holidays={HOLIDAYS}
+          logs={logs}
+          onLogsChange={handleLogsChange}
+        />
+      </article>
     </div>
   );
 }

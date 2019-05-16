@@ -23,22 +23,20 @@ export const Article: React.FC<ArticlaProps> = props => {
   ));
 
   return (
-    <article>
-      <table>
-        <thead>
-          <tr>
-            <th className="date">Date</th>
-            <th>Leave</th>
-            <th className="time">Started</th>
-            <th className="time">Finished</th>
-            <th className="time">Working</th>
-            <th className="time">Balance</th>
-          </tr>
-        </thead>
-        <tbody>
-          {logs}
-        </tbody>
-      </table>
-    </article>
+    <table>
+      <thead>
+        <tr>
+          <th className="date">Date</th>
+          <th>Leave</th>
+          <th className="time">Started</th>
+          <th className="time">Finished</th>
+          <th className="time">Working</th>
+          <th className="time">Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        {logs}
+      </tbody>
+    </table>
   );
 };
