@@ -12,16 +12,6 @@ export interface ArticlaProps {
 }
 
 export const MonthlyLog: React.FC<ArticlaProps> = props => {
-
-  const logs = props.logs.map((log, i) => (
-    <DailyLog
-      key={i}
-      holidays={props.holidays}
-      log={log}
-      onLogChange={source => props.onLogsChange(i, source)}
-    />
-  ));
-
   return (
     <table>
       <thead>
@@ -35,7 +25,14 @@ export const MonthlyLog: React.FC<ArticlaProps> = props => {
         </tr>
       </thead>
       <tbody>
-        {logs}
+        {props.logs.map((log, i) => (
+          <DailyLog
+            key={i}
+            holidays={props.holidays}
+            log={log}
+            onLogChange={source => props.onLogsChange(i, source)}
+          />
+        ))}
       </tbody>
     </table>
   );
