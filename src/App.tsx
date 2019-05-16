@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import './App.scss';
 import { MonthlyLog } from './MonthlyLog';
 import { Header } from './Header';
+import { Footer } from './Footer';
 import { Nullable, zerofill } from './lib';
 import { Log, LogSource, toSource, BalanceHolder, LeaveType } from './log/types';
 import { LocalLogsSet } from './storage/local';
@@ -64,6 +65,7 @@ const App: React.FC = () => {
           onLogsChange={handleLogsChange}
         />
       </article>
+      <Footer />
     </div>
   );
 }
