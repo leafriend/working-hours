@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import './App.css';
+import './App.scss';
 import { MonthlyLog } from './MonthlyLog';
 import { Header } from './Header';
 import { Nullable, zerofill } from './lib';
