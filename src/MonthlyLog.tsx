@@ -8,7 +8,7 @@ export interface ArticlaProps {
   holidays: string[];
   yearMonth: string;
   logs: Log[];
-  onLogsChange: (i: number, source: LogSource) => void,
+  onLogsChange: (source: LogSource) => void,
 }
 
 export const MonthlyLog: React.FC<ArticlaProps> = props => {
@@ -25,12 +25,12 @@ export const MonthlyLog: React.FC<ArticlaProps> = props => {
         </tr>
       </thead>
       <tbody>
-        {props.logs.map((log, i) => (
+        {props.logs.map(log => (
           <DailyLog
-            key={i}
+            key={log.date}
             holidays={props.holidays}
             log={log}
-            onLogChange={source => props.onLogsChange(i, source)}
+            onLogChange={source => props.onLogsChange(source)}
           />
         ))}
       </tbody>

@@ -38,9 +38,14 @@ const App: React.FC = () => {
   const defaultLogs = convertLogSourcesToLogs(YEAR_MONTH, sources);
   const [logs, setLogs] = useState(defaultLogs);
 
-  function handleLogsChange(i: number, source: LogSource) {
-    const sources = logs.map(toSource);
-    sources[i] = source;
+  function handleLogsChange(source: LogSource) {
+    const date = parseInt(source.date.substring(8), 10);
+    const sources = logs.map(toSource)
+      .map((log, i) =>
+        log === null
+          ? (i + 1 === date ? source : log)
+          : (log.date === source.date ? source : log)
+      );
     const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources);
     setLogs(newLogs);
     logsSet.setLogSources(YEAR_MONTH, newLogs);
