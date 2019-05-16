@@ -2,8 +2,8 @@ import { convertMinutesToTime, convertTimeToMinutes, Nullable } from "../lib";
 
 export enum LeaveType {
   WORK = 'WORK',
-  FULL = 'FULL',
   HALF = 'HALF',
+  FULL = 'FULL',
 }
 
 export interface LogSource {

@@ -60,8 +60,8 @@ export const DailyLog: React.FC<DailyLogProps> = props => {
           onChange={e => handleChange({ leaveType: e.target.value as LeaveType })}
         >
           <option value={LeaveType.WORK}>Work</option>
-          <option value={LeaveType.FULL}>Full</option>
           <option value={LeaveType.HALF}>Half</option>
+          <option value={LeaveType.FULL}>Full</option>
         </select>
       </td>
       <td className="time">
