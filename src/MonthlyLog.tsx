@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './Article.scss';
+import './MonthlyLog.scss';
 import { DailyLog } from './DailyLog';
 import { Log, LogSource } from './log/types';
 
@@ -11,7 +11,7 @@ export interface ArticlaProps {
   onLogsChange: (i: number, source: LogSource) => void,
 }
 
-export const Article: React.FC<ArticlaProps> = props => {
+export const MonthlyLog: React.FC<ArticlaProps> = props => {
 
   const logs = props.logs.map((log, i) => (
     <DailyLog

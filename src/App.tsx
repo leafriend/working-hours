@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import './App.css';
-import { Article } from './Article';
+import { MonthlyLog } from './MonthlyLog';
 import { Header } from './Header';
 import { Nullable, zerofill } from './lib';
 import { Log, LogSource, toSource, BalanceHolder, LeaveType } from './log/types';
@@ -52,7 +52,7 @@ const App: React.FC = () => {
         yearMonth={YEAR_MONTH}
       />
       <article>
-        <Article
+        <MonthlyLog
           yearMonth={YEAR_MONTH}
           holidays={HOLIDAYS}
           logs={logs}
