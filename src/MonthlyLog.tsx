@@ -13,7 +13,7 @@ export interface ArticlaProps {
 
 export const MonthlyLog: React.FC<ArticlaProps> = props => {
   return (
-    <table>
+    <table className="monthly-logs">
       <thead>
         <tr>
           <th className="date">Date</th>
