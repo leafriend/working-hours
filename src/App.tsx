@@ -15,6 +15,8 @@ const HOLIDAYS = [
   '2019-05-06',
 ];
 
+const TABLE = MonthlyLog.toString();
+
 const logsSet: LogsSet = new LocalLogsSet();
 
 function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>[]): Log[] {
@@ -38,6 +40,8 @@ const App: React.FC = () => {
   const sources = logsSet.getLogSources(YEAR_MONTH);
   const defaultLogs = convertLogSourcesToLogs(YEAR_MONTH, sources);
   const [logs, setLogs] = useState(defaultLogs);
+
+  const [viewMode, setViewMode] = useState(TABLE);
 
   function handleLogsChange(source: LogSource) {
     const date = parseInt(source.date.substring(8), 10);
@@ -65,7 +69,10 @@ const App: React.FC = () => {
           onLogsChange={handleLogsChange}
         />
       </article>
-      <Footer />
+      <Footer
+        viewMode={viewMode}
+        handleViewModeChange={viewMode => setViewMode(viewMode)}
+      />
     </div>
   );
 }

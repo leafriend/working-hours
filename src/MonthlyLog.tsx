@@ -37,3 +37,5 @@ export const MonthlyLog: React.FC<ArticlaProps> = props => {
     </table>
   );
 };
+
+MonthlyLog.toString = () => 'MonthlyLog';
