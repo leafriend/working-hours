@@ -38,6 +38,10 @@ export class Log {
   }
 
   public get working(): string | undefined {
+    if (this.leaveType === LeaveType.FULL) {
+      return convertMinutesToTime(9.5 * 60);
+    }
+
     if (this.startedAt === undefined || this.finishedAt === undefined) {
       return undefined;
     }
@@ -47,18 +51,29 @@ export class Log {
     const total = finishedAt - startedAt;
 
     const working = (() => {
-      if (this.leaveType !== LeaveType.WORK && total < (4.5 * 1) * 60) {
-        return total - (30 * (1 - 1));
+      switch (this.leaveType) {
 
-      } else if (this.leaveType !== LeaveType.WORK && total < (4.5 * 2) * 60) {
-        return total - (30 * (2 - 1));
+        case LeaveType.HALF:
+          if (total >= 4 * 60) {
+            return 8 * 60;
+          }
+          return 4 * 60 + total;
 
-      } else if (total < (4.5 * 3) * 60) {
-        return total - (30 * (3 - 1));
+        case LeaveType.WORK:
+          if (total < (4.5 * 1) * 60) {
+            return total - (30 * (1 - 1));
 
-      } else {
-        return total - 90;
+          } else if (total < (4.5 * 2) * 60) {
+            return total - (30 * (2 - 1));
+
+          } else if (total < (4.5 * 3) * 60) {
+            return total - (30 * (3 - 1));
+
+          } else {
+            return total - 90;
+          }
       }
+
     })()
 
     return convertMinutesToTime(working);
