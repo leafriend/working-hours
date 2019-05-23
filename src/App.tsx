@@ -43,8 +43,7 @@ const App: React.FC = () => {
   const defaultLogs = convertLogSourcesToLogs(YEAR_MONTH, sources);
   const [logs, setLogs] = useState(defaultLogs);
 
-  // const [viewMode, setViewMode] = useState(TABLE);
-  const [viewMode, setViewMode] = useState(TEXT);
+  const [viewMode, setViewMode] = useState(TABLE);
 
   function handleLogsChange(source: LogSource) {
     const date = parseInt(source.date.substring(8), 10);
