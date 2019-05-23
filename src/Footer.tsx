@@ -26,6 +26,7 @@ export const Footer: React.FC<FooterProps> = props => {
       <a
         href="https://github.com/leafriend/working-hours/"
         target="_blank"
+        rel="noopener noreferrer"
       >Github</a>
     </footer>
   );
