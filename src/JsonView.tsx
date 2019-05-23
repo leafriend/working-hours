@@ -1,7 +1,6 @@
 import React from 'react';
 
 import './JsonView.scss';
-import { DailyLog } from './DailyLog';
 import { Log, LogSource, toSource } from './log/types';
 import { Nullable } from './lib';
 
