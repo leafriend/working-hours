@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 
 import './Footer.scss';
 import { MonthlyLog } from './MonthlyLog';
+import { JsonView } from './JsonView';
 
 const TABLE = MonthlyLog.toString();
+const TEXT = JsonView.toString();
 
 export interface FooterProps {
   viewMode: string;
@@ -18,6 +20,7 @@ export const Footer: React.FC<FooterProps> = props => {
         onChange={e => props.handleViewModeChange(e.target.value)}
       >
         <option value={TABLE}>Table</option>
+        <option value={TEXT}>Text</option>
       </select>
       |
       <a

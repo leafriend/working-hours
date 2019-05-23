@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import './App.scss';
 import { MonthlyLog } from './MonthlyLog';
 import { Header } from './Header';
+import { JsonView } from './JsonView';
 import { Footer } from './Footer';
 import { Nullable, zerofill } from './lib';
 import { Log, LogSource, toSource, BalanceHolder, LeaveType } from './log/types';
@@ -16,6 +17,7 @@ const HOLIDAYS = [
 ];
 
 const TABLE = MonthlyLog.toString();
+const TEXT = JsonView.toString();
 
 const logsSet: LogsSet = new LocalLogsSet();
 
@@ -41,7 +43,8 @@ const App: React.FC = () => {
   const defaultLogs = convertLogSourcesToLogs(YEAR_MONTH, sources);
   const [logs, setLogs] = useState(defaultLogs);
 
-  const [viewMode, setViewMode] = useState(TABLE);
+  // const [viewMode, setViewMode] = useState(TABLE);
+  const [viewMode, setViewMode] = useState(TEXT);
 
   function handleLogsChange(source: LogSource) {
     const date = parseInt(source.date.substring(8), 10);
@@ -62,12 +65,33 @@ const App: React.FC = () => {
         yearMonth={YEAR_MONTH}
       />
       <article>
-        <MonthlyLog
-          yearMonth={YEAR_MONTH}
-          holidays={HOLIDAYS}
-          logs={logs}
-          onLogsChange={handleLogsChange}
-        />
+        {(() => {
+          switch (viewMode) {
+            case TABLE:
+              return (
+                <MonthlyLog
+                  yearMonth={YEAR_MONTH}
+                  holidays={HOLIDAYS}
+                  logs={logs}
+                  onLogsChange={handleLogsChange}
+                />
+              );
+            case TEXT:
+              return (
+                <JsonView
+                  logs={logs}
+                  onLogsChange={sources => {
+                    const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources);
+                    setLogs(newLogs);
+                    logsSet.setLogSources(YEAR_MONTH, newLogs);
+                  }}
+                />
+              );
+            default:
+              return null;
+          }
+
+        })()}
       </article>
       <Footer
         viewMode={viewMode}
