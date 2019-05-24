@@ -85,8 +85,7 @@ export class Log {
       return undefined;
     }
 
-    const basetime = this.leaveType === LeaveType.HALF ? 4 : 8;
-    const overMinutes = convertTimeToMinutes(working) - (basetime * 60);
+    const overMinutes = convertTimeToMinutes(working) - (8 * 60);
     return convertMinutesToTime(overMinutes);
   }
 
