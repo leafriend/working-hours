@@ -23,6 +23,7 @@ const logsSet: LogsSet = new LocalLogsSet();
 
 function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>[]): Log[] {
   let balanceHolder: BalanceHolder = {
+    overall: '00:00',
     balance: '00:00',
   };
   const logs = Array(sources.length);

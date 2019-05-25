@@ -5,9 +5,6 @@ table.monthly-logs {
     border-collapse: collapse;
     height: 2em;
   }
-  td:last-child {
-    padding-right: 0.25em;
-  }
 }
 td.date {
   text-align: right;
@@ -29,5 +26,5 @@ tr.today {
   }
 }
 input[type="time"] {
-  width: 6.375em;
+  width: 6em;
 }

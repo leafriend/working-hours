@@ -84,6 +84,7 @@ export const DailyLog: React.FC<DailyLogProps> = props => {
       </td>
       <td className="time">{log.working || '--:--'}</td>
       <td className="time">{log.balance}</td>
+      <td className="time">{log.overall}</td>
     </tr>
   );
 

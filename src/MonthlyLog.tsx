@@ -18,10 +18,11 @@ export const MonthlyLog: React.FC<ArticlaProps> = props => {
         <tr>
           <th className="date">D.</th>
           <th>Leave</th>
-          <th className="time">Started</th>
-          <th className="time">Finished</th>
+          <th className="time">Start</th>
+          <th className="time">Fin.</th>
           <th className="time">Work</th>
           <th className="time">Bal.</th>
+          <th className="time">All</th>
         </tr>
       </thead>
       <tbody>

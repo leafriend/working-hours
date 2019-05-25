@@ -14,6 +14,7 @@ export interface LogSource {
 }
 
 export interface BalanceHolder {
+  readonly overall: string;
   readonly balance: string
 }
 
@@ -35,6 +36,18 @@ export class Log {
     this.leaveType = log.leaveType;
     this.startedAt = log.startedAt;
     this.finishedAt = log.finishedAt;
+  }
+
+  public get overall(): string {
+
+    if (this.startedAt === undefined || this.finishedAt === undefined) {
+      return this.balanceHolder.overall;
+    }
+
+    const overall = convertTimeToMinutes(this.balanceHolder.overall);
+    const working = convertTimeToMinutes(this.working!);
+    return convertMinutesToTime(overall + working);
+
   }
 
   public get working(): string | undefined {
