@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import './App.scss';
 import { MonthlyLog } from './MonthlyLog';
@@ -38,8 +38,7 @@ function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>
   })
   return logs;
 }
-
-const App: React.FC = () => {
+export default function App(): ReactElement {
   const sources = logsSet.getLogSources(YEAR_MONTH);
   const defaultLogs = convertLogSourcesToLogs(YEAR_MONTH, sources);
   const [logs, setLogs] = useState(defaultLogs);
@@ -100,5 +99,3 @@ const App: React.FC = () => {
     </div>
   );
 }
-
-export default App;

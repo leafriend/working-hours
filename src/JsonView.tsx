@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 
 import './JsonView.scss';
 import { Log, LogSource, toSource } from './log/types';
@@ -9,7 +9,7 @@ export interface JsonViewProps {
   onLogsChange: (sources: Nullable<LogSource>[]) => void,
 }
 
-export const JsonView: React.FC<JsonViewProps> = props => {
+export function JsonView(props: PropsWithChildren<JsonViewProps>): ReactElement {
   const sources = props.logs.map(toSource);
   return (
     <textarea
@@ -19,5 +19,3 @@ export const JsonView: React.FC<JsonViewProps> = props => {
     />
   );
 };
-
-JsonView.toString = () => 'JsonView';

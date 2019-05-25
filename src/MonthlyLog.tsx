@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 
 import './MonthlyLog.scss';
 import { DailyLog } from './DailyLog';
@@ -11,7 +11,7 @@ export interface ArticlaProps {
   onLogsChange: (source: LogSource) => void,
 }
 
-export const MonthlyLog: React.FC<ArticlaProps> = props => {
+export function MonthlyLog(props: PropsWithChildren<ArticlaProps>): ReactElement {
   return (
     <table className="monthly-logs">
       <thead>
@@ -38,5 +38,3 @@ export const MonthlyLog: React.FC<ArticlaProps> = props => {
     </table>
   );
 };
-
-MonthlyLog.toString = () => 'MonthlyLog';
