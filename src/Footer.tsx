@@ -4,8 +4,8 @@ import './Footer.scss';
 import MonthlyLog from './MonthlyLog';
 import JsonView from './JsonView';
 
-const TABLE = MonthlyLog.toString();
-const TEXT = JsonView.toString();
+const TABLE = MonthlyLog.name;
+const TEXT = JsonView.name;
 
 export interface FooterProps {
   viewMode: string;

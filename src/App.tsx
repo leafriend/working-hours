@@ -16,8 +16,8 @@ const HOLIDAYS = [
   '2019-05-06',
 ];
 
-const TABLE = MonthlyLog.toString();
-const TEXT = JsonView.toString();
+const TABLE = MonthlyLog.name;
+const TEXT = JsonView.name;
 
 const logsSet: LogsSet = new LocalLogsSet();
 
