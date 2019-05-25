@@ -1,4 +1,4 @@
-import React, { ReactElement, PropsWithChildren } from 'react';
+import React, { ReactElement } from 'react';
 
 import { Log, LeaveType, LogSource } from './log/types';
 import { zerofill } from './lib';
@@ -17,7 +17,7 @@ type PartialLog = LeaveTypeLog | StartedAtLog | FinishedAtLog;
 const SATURDAY = 6;
 const SUNDAY = 0;
 
-export default function DailyLog(props: PropsWithChildren<DailyLogProps>): ReactElement {
+export default function DailyLog(props: DailyLogProps): ReactElement {
   const log = props.log
 
   const date = new Date(log.date);

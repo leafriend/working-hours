@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 
 import './MonthlyLog.scss';
 import DailyLog from './DailyLog';
@@ -11,7 +11,7 @@ export interface MonthlyLogProps {
   onLogsChange: (source: LogSource) => void,
 }
 
-export default function MonthlyLog(props: PropsWithChildren<MonthlyLogProps>): ReactElement {
+export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
   return (
     <table className="monthly-logs">
       <thead>

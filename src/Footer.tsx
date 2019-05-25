@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 
 import './Footer.scss';
 import MonthlyLog from './MonthlyLog';
@@ -12,7 +12,7 @@ export interface FooterProps {
   handleViewModeChange: (viewMode: string) => void
 }
 
-export default function Footer(props: PropsWithChildren<FooterProps>): ReactElement {
+export default function Footer(props: FooterProps): ReactElement {
   return (
     <footer>
       <select
