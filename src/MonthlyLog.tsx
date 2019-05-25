@@ -4,14 +4,14 @@ import './MonthlyLog.scss';
 import DailyLog from './DailyLog';
 import { Log, LogSource } from './log/types';
 
-export interface ArticlaProps {
+export interface MonthlyLogProps {
   holidays: string[];
   yearMonth: string;
   logs: Log[];
   onLogsChange: (source: LogSource) => void,
 }
 
-export default function MonthlyLog(props: PropsWithChildren<ArticlaProps>): ReactElement {
+export default function MonthlyLog(props: PropsWithChildren<MonthlyLogProps>): ReactElement {
   return (
     <table className="monthly-logs">
       <thead>
