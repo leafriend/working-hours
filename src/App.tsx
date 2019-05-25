@@ -1,10 +1,10 @@
 import React, { ReactElement, useState } from 'react';
 
 import './App.scss';
-import { MonthlyLog } from './MonthlyLog';
-import { Header } from './Header';
-import { JsonView } from './JsonView';
-import { Footer } from './Footer';
+import MonthlyLog from './MonthlyLog';
+import Header from './Header';
+import JsonView from './JsonView';
+import Footer from './Footer';
 import { Nullable, zerofill } from './lib';
 import { Log, LogSource, toSource, BalanceHolder, LeaveType } from './log/types';
 import { LocalLogsSet } from './storage/local';

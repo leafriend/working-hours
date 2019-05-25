@@ -17,7 +17,7 @@ type PartialLog = LeaveTypeLog | StartedAtLog | FinishedAtLog;
 const SATURDAY = 6;
 const SUNDAY = 0;
 
-export function DailyLog(props: PropsWithChildren<DailyLogProps>): ReactElement {
+export default function DailyLog(props: PropsWithChildren<DailyLogProps>): ReactElement {
   const log = props.log
 
   const date = new Date(log.date);

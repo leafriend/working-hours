@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, ReactElement } from 'react';
 
 import './MonthlyLog.scss';
-import { DailyLog } from './DailyLog';
+import DailyLog from './DailyLog';
 import { Log, LogSource } from './log/types';
 
 export interface ArticlaProps {
@@ -11,7 +11,7 @@ export interface ArticlaProps {
   onLogsChange: (source: LogSource) => void,
 }
 
-export function MonthlyLog(props: PropsWithChildren<ArticlaProps>): ReactElement {
+export default function MonthlyLog(props: PropsWithChildren<ArticlaProps>): ReactElement {
   return (
     <table className="monthly-logs">
       <thead>

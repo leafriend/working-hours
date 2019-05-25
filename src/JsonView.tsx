@@ -9,7 +9,7 @@ export interface JsonViewProps {
   onLogsChange: (sources: Nullable<LogSource>[]) => void,
 }
 
-export function JsonView(props: PropsWithChildren<JsonViewProps>): ReactElement {
+export default function JsonView(props: PropsWithChildren<JsonViewProps>): ReactElement {
   const sources = props.logs.map(toSource);
   return (
     <textarea

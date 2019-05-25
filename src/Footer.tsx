@@ -1,8 +1,8 @@
 import React, { PropsWithChildren, ReactElement } from 'react';
 
 import './Footer.scss';
-import { MonthlyLog } from './MonthlyLog';
-import { JsonView } from './JsonView';
+import MonthlyLog from './MonthlyLog';
+import JsonView from './JsonView';
 
 const TABLE = MonthlyLog.toString();
 const TEXT = JsonView.toString();
@@ -12,7 +12,7 @@ export interface FooterProps {
   handleViewModeChange: (viewMode: string) => void
 }
 
-export function Footer(props: PropsWithChildren<FooterProps>): ReactElement {
+export default function Footer(props: PropsWithChildren<FooterProps>): ReactElement {
   return (
     <footer>
       <select
