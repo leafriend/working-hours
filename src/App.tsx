@@ -5,6 +5,7 @@ import MonthlyLog from './MonthlyLog';
 import Header from './Header';
 import JsonView from './JsonView';
 import Footer from './Footer';
+import LogEditor from './LogEditor';
 import { Nullable, zerofill } from './lib';
 import { Log, LogSource, toSource, BalanceHolder, LeaveType } from './log/types';
 import { LocalLogsSet } from './storage/local';
@@ -54,7 +55,15 @@ export default function App(): ReactElement {
   const [activeDate, setActiveDate] = useState(`${now.getFullYear()}-${zerofill(now.getMonth() + 1)}-${zerofill(now.getDate())}`)
 
   const [logs, setLogs] = useState<Log[]>([]);
-  useEffect(() => setLogs(loadLogs(YEAR_MONTH, HOLIDAYS, activeDate)), [activeDate]);
+  const [activeLog, setActiveLog] = useState<Log | null>(null);
+  useEffect(() => {
+    const logs = loadLogs(YEAR_MONTH, HOLIDAYS, activeDate);
+    setLogs(logs);
+    const activeLogs = logs.filter(log => log.isActive);
+    if (activeLogs.length > 0) {
+      setActiveLog(activeLogs[0]);
+    }
+  }, []);
   const [viewMode, setViewMode] = useState(TABLE);
 
   function handleLogsChange(source: LogSource) {
@@ -67,6 +76,10 @@ export default function App(): ReactElement {
       );
     const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources, HOLIDAYS, activeDate);
     setLogs(newLogs);
+    const activeLogs = newLogs.filter(log => log.isActive);
+    if (activeLogs.length > 0) {
+      setActiveLog(activeLogs[0]);
+    }
     logsSet.setLogSources(YEAR_MONTH, newLogs);
   }
 
@@ -82,11 +95,16 @@ export default function App(): ReactElement {
               case TABLE:
                 return (
                   <MonthlyLog
-                    yearMonth={YEAR_MONTH}
-                    holidays={HOLIDAYS}
                     logs={logs}
-                    onLogChange={handleLogsChange}
-                    onActivate={setActiveDate}
+                    onActivate={activeDate => {
+                      setActiveDate(activeDate);
+                      logs.forEach(log => log.isActive = log.date === activeDate);
+                      setLogs(logs);
+                      const activeLogs = logs.filter(log => log.isActive);
+                      if (activeLogs.length > 0) {
+                        setActiveLog(activeLogs[0]);
+                      }
+                    }}
                   />
                 );
               case TEXT:
@@ -96,6 +114,10 @@ export default function App(): ReactElement {
                     onLogsChange={sources => {
                       const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources, HOLIDAYS, activeDate);
                       setLogs(newLogs);
+                      const activeLogs = logs.filter(log => log.isActive);
+                      if (activeLogs.length > 0) {
+                        setActiveLog(activeLogs[0]);
+                      }
                       logsSet.setLogSources(YEAR_MONTH, newLogs);
                     }}
                   />
@@ -107,7 +129,12 @@ export default function App(): ReactElement {
           })()}
         </div>
         <div>
-          Editor will be here
+          {activeLog === null ? null : (
+            <LogEditor
+              log={activeLog}
+              onLogChange={handleLogsChange}
+            />
+          )}
         </div>
       </article>
       <Footer

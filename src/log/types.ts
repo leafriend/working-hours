@@ -39,7 +39,7 @@ export class Log {
     log: LogSource,
     private readonly balanceHolder: BalanceHolder,
     public readonly isHoliday: boolean,
-    public readonly isActive: boolean,
+    public isActive: boolean,
   ) {
     this.date = log.date;
     this.leaveType = log.leaveType;
