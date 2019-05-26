@@ -18,6 +18,9 @@ export interface BalanceHolder {
   readonly balance: string
 }
 
+const SATURDAY = 6;
+const SUNDAY = 0;
+
 export class Log {
 
   public readonly date: string;
@@ -28,14 +31,27 @@ export class Log {
 
   public readonly finishedAt?: string;
 
+  public readonly isSaturday: boolean;
+
+  public readonly isSunday: boolean;
+
   public constructor(
     log: LogSource,
     private readonly balanceHolder: BalanceHolder,
+    public readonly isHoliday: boolean,
+    public readonly isActive: boolean,
   ) {
     this.date = log.date;
     this.leaveType = log.leaveType;
     this.startedAt = log.startedAt;
     this.finishedAt = log.finishedAt;
+
+    const date = new Date(log.date);
+    const weekday = date.getDay();
+
+    this.isSunday = weekday === SUNDAY;
+    this.isSaturday = weekday === SATURDAY;
+
   }
 
   public get overall(): string {

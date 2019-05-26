@@ -14,24 +14,10 @@ type StartedAtLog = Pick<Log, 'startedAt'>;
 type FinishedAtLog = Pick<Log, 'finishedAt'>;
 type PartialLog = LeaveTypeLog | StartedAtLog | FinishedAtLog;
 
-const SATURDAY = 6;
-const SUNDAY = 0;
-
 export default function DailyLog(props: DailyLogProps): ReactElement {
   const log = props.log
 
-  const date = new Date(log.date);
-  const weekday = date.getDay();
-
-  const isHoliday = props.holidays.indexOf(log.date) >= 0;
-  const isSunday = weekday === SUNDAY;
-  const isSaturday = weekday === SATURDAY;
-
-  const now = new Date();
-  const active = `${now.getFullYear()}-${zerofill(now.getMonth() + 1)}-${zerofill(now.getDate())}`
-  const isActive = active === log.date;
-
-  const disabled = isHoliday || isSunday || isSaturday;
+  const disabled = log.isHoliday || log.isSunday || log.isSaturday;
   const readOnly = log.leaveType === LeaveType.FULL;
 
   function handleChange(partial: PartialLog) {
@@ -45,14 +31,14 @@ export default function DailyLog(props: DailyLogProps): ReactElement {
 
   return (
     <tr className={[
-      isHoliday ? 'holiday' : (
-        isSunday ? 'sunday' : (
-          isSaturday ? 'saturday' : ''
+      log.isHoliday ? 'holiday' : (
+        log.isSunday ? 'sunday' : (
+          log.isSaturday ? 'saturday' : ''
         )
       ),
-      isActive ? 'active' : '',
+      log.isActive ? 'active' : '',
     ].join(' ').replace(/ +/g, ' ').trim()}>
-      <td className="date">{date.getDate()}</td>
+      <td className="date">{new Date(log.date).getDate()}</td>
       <td>
         <select
           disabled={disabled}
