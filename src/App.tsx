@@ -66,7 +66,7 @@ export default function App(): ReactElement {
   }, []);
   const [viewMode, setViewMode] = useState(TABLE);
 
-  function handleLogsChange(source: LogSource) {
+  function handleLogChange(source: LogSource) {
     const date = parseInt(source.date.substring(8), 10);
     const sources = logs.map(toSource)
       .map((log, i) =>
@@ -132,7 +132,7 @@ export default function App(): ReactElement {
           {activeLog === null ? null : (
             <LogEditor
               log={activeLog}
-              onLogChange={handleLogsChange}
+              onLogChange={handleLogChange}
             />
           )}
         </div>
