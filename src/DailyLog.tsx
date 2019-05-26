@@ -28,8 +28,8 @@ export default function DailyLog(props: DailyLogProps): ReactElement {
   const isSaturday = weekday === SATURDAY;
 
   const now = new Date();
-  const today = `${now.getFullYear()}-${zerofill(now.getMonth() + 1)}-${zerofill(now.getDate())}`
-  const isToday = today === log.date;
+  const active = `${now.getFullYear()}-${zerofill(now.getMonth() + 1)}-${zerofill(now.getDate())}`
+  const isActive = active === log.date;
 
   const disabled = isHoliday || isSunday || isSaturday;
   const readOnly = log.leaveType === LeaveType.FULL;
@@ -50,7 +50,7 @@ export default function DailyLog(props: DailyLogProps): ReactElement {
           isSaturday ? 'saturday' : ''
         )
       ),
-      isToday ? 'today' : '',
+      isActive ? 'active' : '',
     ].join(' ').replace(/ +/g, ' ').trim()}>
       <td className="date">{date.getDate()}</td>
       <td>
