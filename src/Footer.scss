@@ -1,7 +1,11 @@
-footer, footer a {
+footer {
   background-color: #333333;
-  color: #e8e8e8;
-  padding-top: 0.25em;
-  padding-bottom: 1.25em;
+  padding: 0.5em;
   text-align: right;
+  select {
+    margin-right: 0.5em;
+  }
+  a {
+    color: #e8e8e8;
+  }
 }

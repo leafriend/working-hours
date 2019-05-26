@@ -22,7 +22,6 @@ export default function Footer(props: FooterProps): ReactElement {
         <option value={TABLE}>Table</option>
         <option value={TEXT}>Text</option>
       </select>
-      |
       <a
         href="https://github.com/leafriend/working-hours/"
         target="_blank"

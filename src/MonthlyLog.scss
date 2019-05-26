@@ -1,9 +1,16 @@
 table.monthly-logs {
   border-collapse: collapse;
   width: 100%;
-  th, td {
+  th,
+  td {
     border-collapse: collapse;
     height: 2em;
+    &:first-child {
+      padding-left: 0.25em;
+    }
+    &:last-child {
+      padding-right: 0.5em;
+    }
   }
 }
 td.date {
@@ -12,16 +19,34 @@ td.date {
 td.time {
   text-align: right;
 }
-tr.holiday, tr.sunday {
-  background-color: rgb(255, 225, 225);
+$SUNDAY: rgb(255, 225, 225);
+$SATURDAY: rgb(225, 240, 255);
+$ACTIVE: rgb(255, 255, 210);
+tr.holiday,
+tr.sunday {
+  background-color: $SUNDAY;
+  &.active {
+    background-color: mix($SUNDAY, $ACTIVE);
+    td {
+      border-top: 1px solid darken(mix($SUNDAY, $ACTIVE), 50%);
+      border-bottom: 1px solid darken(mix($SUNDAY, $ACTIVE), 50%);
+    }
+  }
 }
 tr.saturday {
-  background-color: rgb(225, 240, 255);
+  background-color: $SATURDAY;
+  &.active {
+    background-color: mix($SATURDAY, $ACTIVE);
+    td {
+      border-top: 1px solid darken(mix($SATURDAY, $ACTIVE), 50%);
+      border-bottom: 1px solid darken(mix($SATURDAY, $ACTIVE), 50%);
+    }
+  }
 }
 tr.active {
-  background-color: rgb(255, 255, 210);
+  background-color: $ACTIVE;
   td {
-    border-top: 1px solid rgb(153, 153, 51);
-    border-bottom: 1px solid rgb(153, 153, 51);
+    border-top: 1px solid darken($ACTIVE, 50%);
+    border-bottom: 1px solid darken($ACTIVE, 50%);
   }
 }
