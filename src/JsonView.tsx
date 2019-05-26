@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import format from 'json-format';
 
 import './JsonView.scss';
 import { Log, LogSource, toSource } from './log/types';
@@ -14,7 +15,7 @@ export default function JsonView(props: JsonViewProps): ReactElement {
   return (
     <textarea
       className="json-view"
-      value={JSON.stringify(sources)}
+      value={format(sources).replace(/\t/g, '  ')}
       onChange={e => props.onLogsChange(JSON.parse(e.target.value))}
     />
   );
