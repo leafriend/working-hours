@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import './MonthlyLog.scss';
 import DailyLog from './DailyLog';
-import { Log, LogSource } from './log/types';
+import { Log } from './log/types';
 
 export interface MonthlyLogProps {
   logs: Log[];
