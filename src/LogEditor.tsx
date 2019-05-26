@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react';
 
+import './LogEditor.scss';
+
 import { Log, LeaveType, LogSource } from './log/types';
 
 export interface LogEditorProps {
@@ -28,43 +30,43 @@ export default function LogEditor(props: LogEditorProps): ReactElement {
   }
 
   return (
-    <React.Fragment>
-      <div>
-        {log.date}
-        <select
-          disabled={disabled}
-          value={log.leaveType}
-          onChange={e => handleChange({ leaveType: e.target.value as LeaveType })}
-        >
-          <option value={LeaveType.WORK}>Work</option>
-          <option value={LeaveType.HALF}>Half</option>
-          <option value={LeaveType.FULL}>Full</option>
-        </select>
+    <div className="LogEditor">
+      <h2>{log.date}</h2>
+      <div className="form-group">
+        <label>
+          Leave Type:
+          <select
+            disabled={disabled}
+            value={log.leaveType}
+            onChange={e => handleChange({ leaveType: e.target.value as LeaveType })}
+          >
+            <option value={LeaveType.WORK}>Work</option>
+            <option value={LeaveType.HALF}>Half</option>
+            <option value={LeaveType.FULL}>Full</option>
+          </select>
+        </label>
+        <label>
+          Started:
+          <input
+            disabled={disabled}
+            readOnly={disabled ? false : readOnly}
+            type="time"
+            value={log.startedAt || ''}
+            onChange={e => handleChange({ startedAt: e.target.value || undefined })}
+          />
+        </label>
+        <label>
+          Finished:
+          <input
+            disabled={disabled}
+            readOnly={disabled ? false : (readOnly || log.startedAt === '')}
+            type="time"
+            value={log.finishedAt || ''}
+            onChange={e => handleChange({ finishedAt: e.target.value || undefined })}
+          />
+        </label>
       </div>
-      <div>
-        started:
-        <input
-          disabled={disabled}
-          readOnly={disabled ? false : readOnly}
-          type="time"
-          value={log.startedAt || ''}
-          onChange={e => handleChange({ startedAt: e.target.value || undefined })}
-        />
-        finished:
-        <input
-          disabled={disabled}
-          readOnly={disabled ? false : (readOnly || log.startedAt === '')}
-          type="time"
-          value={log.finishedAt || ''}
-          onChange={e => handleChange({ finishedAt: e.target.value || undefined })}
-        />
-      </div>
-      <div>
-        working: {log.working || '--:--'}{', '}
-        balance: {log.balance}{', '}
-        overall: {log.overall}
-      </div>
-    </React.Fragment>
+    </div>
   );
 
 }

@@ -23,7 +23,8 @@
 
     & > :last-child {
       align-content: flex-end;
-      background-color: #e8e8e8;
+      background-color: #f0f0f0;
+      border-top: solid 1px #cccccc;
     }
   }
   footer {

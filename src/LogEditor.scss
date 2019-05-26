@@ -1,0 +1,23 @@
+.LogEditor {
+  h2 {
+    font-size: 1em;
+    margin: 0.5em 0.5em 0 0.5em;
+  }
+  input, select, option {
+    font: inherit;
+    padding: 0;
+    height: 1.5em;
+    line-height: 1.5em;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: row;
+    label {
+      flex: 1;
+      margin: 0.5em;
+      input, select {
+        width: 100%;
+      }
+    }
+  }
+}
