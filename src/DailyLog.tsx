@@ -10,6 +10,7 @@ export interface DailyLogProps {
 export default function DailyLog(props: DailyLogProps): ReactElement {
   return (
     <tr
+      id={`log-${props.log.date}`}
       className={[
         props.log.isHoliday ? 'holiday' : (
           props.log.isSunday ? 'sunday' : (

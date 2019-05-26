@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 import './MonthlyLog.scss';
 import DailyLog from './DailyLog';
@@ -10,6 +10,14 @@ export interface MonthlyLogProps {
 }
 
 export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
+  useEffect(() => {
+    console.log('MonthlyLog: logs', props.logs);
+    props.logs.forEach(log => {
+      if (log.isActive) {
+        props.onActivate(log.date);
+      }
+    })
+  });
   return (
     <table className="monthly-logs">
       <thead>

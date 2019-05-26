@@ -68,9 +68,19 @@ export default function App(): ReactElement {
 
   const [viewMode, setViewMode] = useState(TABLE);
 
+  const [initialized, setInitialized] = useState(false);
   function handleActivate(activeDate: string): void {
     logs.forEach(log => log.isActive = log.date === activeDate);
     setLogs(logs);
+
+    if (!initialized) {
+      const container = document.getElementById(`content-container`);
+      const el = document.getElementById(`log-${activeDate}`);
+      if (container && el) {
+        setInitialized(true);
+        container.scrollTo({ top: el.offsetTop });
+      }
+    }
 
     const activeLog = logs.find(log => log.isActive);
     activeLog && setActiveLog(activeLog);
@@ -109,7 +119,7 @@ export default function App(): ReactElement {
         yearMonth={YEAR_MONTH}
       />
       <article>
-        <div>
+        <div id="content-container">
           {(() => {
             switch (viewMode) {
               case TABLE:
