@@ -21,7 +21,7 @@ const TEXT = JsonView.name;
 
 const logsSet: LogsSet = new LocalLogsSet();
 
-function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>[], holidays: string[]): Log[] {
+function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>[], holidays: string[], activeDate: string): Log[] {
   let balanceHolder: BalanceHolder = {
     overall: '00:00',
     balance: '00:00',
@@ -35,9 +35,7 @@ function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>
 
     const isHoliday = holidays.indexOf(refined.date) >= 0;
 
-    const now = new Date();
-    const active = `${now.getFullYear()}-${zerofill(now.getMonth() + 1)}-${zerofill(now.getDate())}`
-    const isActive = active === refined.date;
+    const isActive = activeDate === refined.date;
 
     const log = new Log(refined, balanceHolder, isHoliday, isActive);
     logs[i] = log;
@@ -45,15 +43,18 @@ function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>
   })
   return logs;
 }
-function loadLogs(yearMonth: string, holidays: string[]): Log[] {
+function loadLogs(yearMonth: string, holidays: string[], activeDate: string): Log[] {
   const sources = logsSet.getLogSources(yearMonth);
-  const defaultLogs = convertLogSourcesToLogs(yearMonth, sources, holidays);
+  const defaultLogs = convertLogSourcesToLogs(yearMonth, sources, holidays, activeDate);
   return defaultLogs;
 }
 
 export default function App(): ReactElement {
+  const now = new Date();
+  const [activeDate, setActiveDate] = useState(`${now.getFullYear()}-${zerofill(now.getMonth() + 1)}-${zerofill(now.getDate())}`)
+
   const [logs, setLogs] = useState<Log[]>([]);
-  useEffect(() => setLogs(loadLogs(YEAR_MONTH, HOLIDAYS)), []);
+  useEffect(() => setLogs(loadLogs(YEAR_MONTH, HOLIDAYS, activeDate)), []);
   const [viewMode, setViewMode] = useState(TABLE);
 
   function handleLogsChange(source: LogSource) {
@@ -64,7 +65,7 @@ export default function App(): ReactElement {
           ? (i + 1 === date ? source : log)
           : (log.date === source.date ? source : log)
       );
-    const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources, HOLIDAYS);
+    const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources, HOLIDAYS, activeDate);
     setLogs(newLogs);
     logsSet.setLogSources(YEAR_MONTH, newLogs);
   }
@@ -92,7 +93,7 @@ export default function App(): ReactElement {
                   <JsonView
                     logs={logs}
                     onLogsChange={sources => {
-                      const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources, HOLIDAYS);
+                      const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources, HOLIDAYS, activeDate);
                       setLogs(newLogs);
                       logsSet.setLogSources(YEAR_MONTH, newLogs);
                     }}
