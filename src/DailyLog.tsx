@@ -7,6 +7,7 @@ export interface DailyLogProps {
   holidays: string[];
   log: Log;
   onLogChange: (source: LogSource) => void,
+  onActivate: (activeDate: string) => void,
 }
 
 type LeaveTypeLog = Pick<Log, 'leaveType'>;
@@ -30,14 +31,17 @@ export default function DailyLog(props: DailyLogProps): ReactElement {
   }
 
   return (
-    <tr className={[
-      log.isHoliday ? 'holiday' : (
-        log.isSunday ? 'sunday' : (
-          log.isSaturday ? 'saturday' : ''
-        )
-      ),
-      log.isActive ? 'active' : '',
-    ].join(' ').replace(/ +/g, ' ').trim()}>
+    <tr
+      className={[
+        log.isHoliday ? 'holiday' : (
+          log.isSunday ? 'sunday' : (
+            log.isSaturday ? 'saturday' : ''
+          )
+        ),
+        log.isActive ? 'active' : '',
+      ].join(' ').replace(/ +/g, ' ').trim()}
+      onClick={() => props.onActivate(log.date)}
+    >
       <td className="date">{new Date(log.date).getDate()}</td>
       <td>
         <select

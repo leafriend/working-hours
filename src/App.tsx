@@ -54,7 +54,7 @@ export default function App(): ReactElement {
   const [activeDate, setActiveDate] = useState(`${now.getFullYear()}-${zerofill(now.getMonth() + 1)}-${zerofill(now.getDate())}`)
 
   const [logs, setLogs] = useState<Log[]>([]);
-  useEffect(() => setLogs(loadLogs(YEAR_MONTH, HOLIDAYS, activeDate)), []);
+  useEffect(() => setLogs(loadLogs(YEAR_MONTH, HOLIDAYS, activeDate)), [activeDate]);
   const [viewMode, setViewMode] = useState(TABLE);
 
   function handleLogsChange(source: LogSource) {
@@ -86,6 +86,7 @@ export default function App(): ReactElement {
                     holidays={HOLIDAYS}
                     logs={logs}
                     onLogChange={handleLogsChange}
+                    onActivate={setActiveDate}
                   />
                 );
               case TEXT:
