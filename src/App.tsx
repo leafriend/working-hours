@@ -119,35 +119,37 @@ export default function App(): ReactElement {
         yearMonth={YEAR_MONTH}
       />
       <article>
-        <div id="content-container">
-          {(() => {
-            switch (viewMode) {
-              case TABLE:
-                return (
-                  <MonthlyLog
-                    logs={logs}
-                    onActivate={handleActivate}
-                  />
-                );
-              case TEXT:
-                return (
-                  <JsonView
-                    logs={logs}
-                    onLogsChange={handleLogsChange}
-                  />
-                );
-              default:
-                return null;
-            }
+        {(() => {
+          switch (viewMode) {
+            case TABLE:
+              return (
+                <React.Fragment>
+                  <div id="content-container">
+                    <MonthlyLog
+                      logs={logs}
+                      onActivate={handleActivate}
+                    />
+                  </div>
+                  <div>
+                    <LogEditor
+                      log={activeLog}
+                      onLogChange={handleLogChange}
+                    />
+                  </div>
+                </React.Fragment>
+              );
+            case TEXT:
+              return (
+                <JsonView
+                  logs={logs}
+                  onLogsChange={handleLogsChange}
+                />
+              );
+            default:
+              return null;
+          }
 
-          })()}
-        </div>
-        <div>
-          <LogEditor
-            log={activeLog}
-            onLogChange={handleLogChange}
-          />
-        </div>
+        })()}
       </article>
       <Footer
         viewMode={viewMode}
