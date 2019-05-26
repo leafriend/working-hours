@@ -17,16 +17,22 @@ const HOLIDAYS = [
   '2019-05-06',
 ];
 
+const NOW = new Date();
+const TODAY = `${NOW.getFullYear()}-${zerofill(NOW.getMonth() + 1)}-${zerofill(NOW.getDate())}`;
+
+const BALANCE_HOLDER: BalanceHolder = {
+  overall: '00:00',
+  target: '00:00',
+  balance: '00:00',
+};
+
 const TABLE = MonthlyLog.name;
 const TEXT = JsonView.name;
 
 const logsSet: LogsSet = new LocalLogsSet();
 
 function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>[], holidays: string[], activeDate: string): Log[] {
-  let balanceHolder: BalanceHolder = {
-    overall: '00:00',
-    balance: '00:00',
-  };
+  let balanceHolder: BalanceHolder = BALANCE_HOLDER;
   const logs = Array(sources.length);
   sources.forEach((source, i) => {
     const refined = source ? source : {
@@ -51,33 +57,27 @@ function loadLogs(yearMonth: string, holidays: string[], activeDate: string): Lo
 }
 
 export default function App(): ReactElement {
-  const now = new Date();
-  const [activeDate, setActiveDate] = useState(`${now.getFullYear()}-${zerofill(now.getMonth() + 1)}-${zerofill(now.getDate())}`)
-
   const [logs, setLogs] = useState<Log[]>([]);
-  const [activeLog, setActiveLog] = useState<Log | null>(null);
   useEffect(() => {
-    const logs = loadLogs(YEAR_MONTH, HOLIDAYS, activeDate);
-    setLogs(logs);
-    const activeLogs = logs.filter(log => log.isActive);
-    if (activeLogs.length > 0) {
-      setActiveLog(activeLogs[0]);
-    }
+    setLogs(loadLogs(YEAR_MONTH, HOLIDAYS, TODAY));
   }, []);
+
+  const [activeLog, setActiveLog] = useState<Log>(
+    new Log({ date: TODAY, leaveType: LeaveType.WORK }, BALANCE_HOLDER, false, true)
+  );
+
   const [viewMode, setViewMode] = useState(TABLE);
 
   function handleActivate(activeDate: string): void {
-    setActiveDate(activeDate);
     logs.forEach(log => log.isActive = log.date === activeDate);
     setLogs(logs);
-    const activeLogs = logs.filter(log => log.isActive);
-    if (activeLogs.length > 0) {
-      setActiveLog(activeLogs[0]);
-    }
+
+    const activeLog = logs.find(log => log.isActive);
+    activeLog && setActiveLog(activeLog);
   }
 
   function handleLogsChange(sources: Nullable<LogSource>[]) {
-    const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources, HOLIDAYS, activeDate);
+    const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources, HOLIDAYS, activeLog.date);
     setLogs(newLogs);
     const activeLogs = logs.filter(log => log.isActive);
     if (activeLogs.length > 0) {
@@ -94,7 +94,7 @@ export default function App(): ReactElement {
           ? (i + 1 === date ? source : log)
           : (log.date === source.date ? source : log)
       );
-    const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources, HOLIDAYS, activeDate);
+    const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources, HOLIDAYS, source.date);
     setLogs(newLogs);
     const activeLogs = newLogs.filter(log => log.isActive);
     if (activeLogs.length > 0) {
@@ -133,12 +133,10 @@ export default function App(): ReactElement {
           })()}
         </div>
         <div>
-          {activeLog === null ? null : (
-            <LogEditor
-              log={activeLog}
-              onLogChange={handleLogChange}
-            />
-          )}
+          <LogEditor
+            log={activeLog}
+            onLogChange={handleLogChange}
+          />
         </div>
       </article>
       <Footer
