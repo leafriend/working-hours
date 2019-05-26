@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 
 import './App.scss';
 import MonthlyLog from './MonthlyLog';
@@ -38,11 +38,15 @@ function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>
   })
   return logs;
 }
-export default function App(): ReactElement {
-  const sources = logsSet.getLogSources(YEAR_MONTH);
-  const defaultLogs = convertLogSourcesToLogs(YEAR_MONTH, sources);
-  const [logs, setLogs] = useState(defaultLogs);
+function loadLogs(yearMonth: string): Log[] {
+  const sources = logsSet.getLogSources(yearMonth);
+  const defaultLogs = convertLogSourcesToLogs(yearMonth, sources);
+  return defaultLogs;
+}
 
+export default function App(): ReactElement {
+  const [logs, setLogs] = useState<Log[]>([]);
+  useEffect(() => setLogs(loadLogs(YEAR_MONTH)), []);
   const [viewMode, setViewMode] = useState(TABLE);
 
   function handleLogsChange(source: LogSource) {
