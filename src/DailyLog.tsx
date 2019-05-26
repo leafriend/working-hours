@@ -25,8 +25,9 @@ export default function DailyLog(props: DailyLogProps): ReactElement {
       <td className="time">{props.log.startedAt || '--:--'}</td>
       <td className="time">{props.log.finishedAt || '--:--'}</td>
       <td className="time">{props.log.working || '--:--'}</td>
-      <td className="time">{props.log.balance}</td>
       <td className="time">{props.log.overall}</td>
+      <td className="time">{props.log.target}</td>
+      <td className="time">{props.log.balance}</td>
     </tr>
   );
 }

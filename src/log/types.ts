@@ -15,6 +15,7 @@ export interface LogSource {
 
 export interface BalanceHolder {
   readonly overall: string;
+  readonly target: string;
   readonly balance: string
 }
 
@@ -56,13 +57,24 @@ export class Log {
 
   public get overall(): string {
 
-    if (this.startedAt === undefined || this.finishedAt === undefined) {
+    if (this.leaveType !== LeaveType.FULL && (this.startedAt === undefined || this.finishedAt === undefined)) {
       return this.balanceHolder.overall;
     }
 
     const overall = convertTimeToMinutes(this.balanceHolder.overall);
     const working = convertTimeToMinutes(this.working!);
     return convertMinutesToTime(overall + working);
+
+  }
+
+  public get target(): string {
+
+    if (this.isHoliday || this.isSaturday || this.isSunday) {
+      return this.balanceHolder.target;
+    }
+
+    const target = convertTimeToMinutes(this.balanceHolder.target);
+    return convertMinutesToTime(target + 8 * 60);
 
   }
 

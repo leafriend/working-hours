@@ -19,8 +19,9 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
           <th className="time">Start</th>
           <th className="time">Fin.</th>
           <th className="time">Work</th>
-          <th className="time">Bal.</th>
           <th className="time">All</th>
+          <th className="time">Target</th>
+          <th className="time">Bal.</th>
         </tr>
       </thead>
       <tbody>
