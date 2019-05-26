@@ -77,7 +77,7 @@ export default function App(): ReactElement {
                     yearMonth={YEAR_MONTH}
                     holidays={HOLIDAYS}
                     logs={logs}
-                    onLogsChange={handleLogsChange}
+                    onLogChange={handleLogsChange}
                   />
                 );
               case TEXT:

@@ -8,7 +8,7 @@ export interface MonthlyLogProps {
   holidays: string[];
   yearMonth: string;
   logs: Log[];
-  onLogsChange: (source: LogSource) => void,
+  onLogChange: (source: LogSource) => void,
 }
 
 export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
@@ -31,7 +31,7 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
             key={log.date}
             holidays={props.holidays}
             log={log}
-            onLogChange={source => props.onLogsChange(source)}
+            onLogChange={source => props.onLogChange(source)}
           />
         ))}
       </tbody>
