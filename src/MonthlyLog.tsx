@@ -11,7 +11,6 @@ export interface MonthlyLogProps {
 
 export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
   useEffect(() => {
-    console.log('MonthlyLog: logs', props.logs);
     props.logs.forEach(log => {
       if (log.isActive) {
         props.onActivate(log.date);
