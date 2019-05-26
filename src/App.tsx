@@ -66,6 +66,26 @@ export default function App(): ReactElement {
   }, []);
   const [viewMode, setViewMode] = useState(TABLE);
 
+  function handleActivate(activeDate: string): void {
+    setActiveDate(activeDate);
+    logs.forEach(log => log.isActive = log.date === activeDate);
+    setLogs(logs);
+    const activeLogs = logs.filter(log => log.isActive);
+    if (activeLogs.length > 0) {
+      setActiveLog(activeLogs[0]);
+    }
+  }
+
+  function handleLogsChange(sources: Nullable<LogSource>[]) {
+    const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources, HOLIDAYS, activeDate);
+    setLogs(newLogs);
+    const activeLogs = logs.filter(log => log.isActive);
+    if (activeLogs.length > 0) {
+      setActiveLog(activeLogs[0]);
+    }
+    logsSet.setLogSources(YEAR_MONTH, newLogs);
+  }
+
   function handleLogChange(source: LogSource) {
     const date = parseInt(source.date.substring(8), 10);
     const sources = logs.map(toSource)
@@ -96,30 +116,14 @@ export default function App(): ReactElement {
                 return (
                   <MonthlyLog
                     logs={logs}
-                    onActivate={activeDate => {
-                      setActiveDate(activeDate);
-                      logs.forEach(log => log.isActive = log.date === activeDate);
-                      setLogs(logs);
-                      const activeLogs = logs.filter(log => log.isActive);
-                      if (activeLogs.length > 0) {
-                        setActiveLog(activeLogs[0]);
-                      }
-                    }}
+                    onActivate={handleActivate}
                   />
                 );
               case TEXT:
                 return (
                   <JsonView
                     logs={logs}
-                    onLogsChange={sources => {
-                      const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources, HOLIDAYS, activeDate);
-                      setLogs(newLogs);
-                      const activeLogs = logs.filter(log => log.isActive);
-                      if (activeLogs.length > 0) {
-                        setActiveLog(activeLogs[0]);
-                      }
-                      logsSet.setLogSources(YEAR_MONTH, newLogs);
-                    }}
+                    onLogsChange={handleLogsChange}
                   />
                 );
               default:
