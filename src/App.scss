@@ -1,7 +1,7 @@
 .App {
-  position: absolute;
-  top: 0;
-  left: 0;
+  // position: absolute;
+  // top: 0;
+  // left: 0;
   width: 100%;
   height: 100%;
   flex-direction: column;
@@ -12,7 +12,19 @@
   }
   article {
     flex: 1;
-    overflow-y: scroll;
+
+    display: flex;
+    flex-direction: column;
+
+    & > :first-child {
+      flex: 1;
+      overflow-y: scroll;
+    }
+
+    & > :last-child {
+      align-content: flex-end;
+      background-color: #e8e8e8;
+    }
   }
   footer {
     align-content: flex-end;

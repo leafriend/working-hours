@@ -68,33 +68,38 @@ export default function App(): ReactElement {
         yearMonth={YEAR_MONTH}
       />
       <article>
-        {(() => {
-          switch (viewMode) {
-            case TABLE:
-              return (
-                <MonthlyLog
-                  yearMonth={YEAR_MONTH}
-                  holidays={HOLIDAYS}
-                  logs={logs}
-                  onLogsChange={handleLogsChange}
-                />
-              );
-            case TEXT:
-              return (
-                <JsonView
-                  logs={logs}
-                  onLogsChange={sources => {
-                    const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources);
-                    setLogs(newLogs);
-                    logsSet.setLogSources(YEAR_MONTH, newLogs);
-                  }}
-                />
-              );
-            default:
-              return null;
-          }
+        <div>
+          {(() => {
+            switch (viewMode) {
+              case TABLE:
+                return (
+                  <MonthlyLog
+                    yearMonth={YEAR_MONTH}
+                    holidays={HOLIDAYS}
+                    logs={logs}
+                    onLogsChange={handleLogsChange}
+                  />
+                );
+              case TEXT:
+                return (
+                  <JsonView
+                    logs={logs}
+                    onLogsChange={sources => {
+                      const newLogs = convertLogSourcesToLogs(YEAR_MONTH, sources);
+                      setLogs(newLogs);
+                      logsSet.setLogSources(YEAR_MONTH, newLogs);
+                    }}
+                  />
+                );
+              default:
+                return null;
+            }
 
-        })()}
+          })()}
+        </div>
+        <div>
+          Editor will be here
+        </div>
       </article>
       <Footer
         viewMode={viewMode}
