@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 
 import './MonthlyLog.scss';
-import LogEditor from './LogEditor';
+import MonthlyLogEditor from './MonthlyLogEditor';
 import MonthlyLogTable from './MonthlyLogTable';
 import { Log, LeaveType, BalanceHolder, LogSource, toSource } from './log/types';
 import { zerofill, Nullable } from './lib';
@@ -110,7 +110,7 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
         />
       </div>
       <div>
-        <LogEditor
+        <MonthlyLogEditor
           log={activeLog}
           onLogChange={handleLogChange}
         />

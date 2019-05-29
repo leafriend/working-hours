@@ -1,10 +1,10 @@
 import React, { ReactElement } from 'react';
 
-import './LogEditor.scss';
+import './MonthlyLogEditor.scss';
 
 import { Log, LeaveType, LogSource } from './log/types';
 
-export interface LogEditorProps {
+export interface MonthlyLogEditorProps {
   log: Log;
   onLogChange: (source: LogSource) => void,
 }
@@ -14,7 +14,7 @@ type StartedAtLog = Pick<Log, 'startedAt'>;
 type FinishedAtLog = Pick<Log, 'finishedAt'>;
 type PartialLog = LeaveTypeLog | StartedAtLog | FinishedAtLog;
 
-export default function LogEditor(props: LogEditorProps): ReactElement {
+export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactElement {
   const log = props.log
 
   const disabled = log.isHoliday || log.isSunday || log.isSaturday;
