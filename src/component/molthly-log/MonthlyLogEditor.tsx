@@ -4,20 +4,20 @@ import './MonthlyLogEditor.scss';
 
 import { LeaveType, LogSource } from '../../log/types';
 
-import { Log } from './Log';
+import { CaculatedLog } from './CaculatedLog';
 
 export interface MonthlyLogEditorProps {
-  log: Log;
+  calculatedLog: CaculatedLog;
   onLogChange: (source: LogSource) => void,
 }
 
-type LeaveTypeLog = Pick<Log, 'leaveType'>;
-type StartedAtLog = Pick<Log, 'startedAt'>;
-type FinishedAtLog = Pick<Log, 'finishedAt'>;
+type LeaveTypeLog = Pick<CaculatedLog, 'leaveType'>;
+type StartedAtLog = Pick<CaculatedLog, 'startedAt'>;
+type FinishedAtLog = Pick<CaculatedLog, 'finishedAt'>;
 type PartialLog = LeaveTypeLog | StartedAtLog | FinishedAtLog;
 
 export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactElement {
-  const log = props.log
+  const log = props.calculatedLog
 
   const disabled = log.isHoliday || log.isSunday || log.isSaturday;
   const readOnly = log.leaveType === LeaveType.FULL;

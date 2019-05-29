@@ -36,7 +36,7 @@ export interface BalanceHolder {
 const SATURDAY = 6;
 const SUNDAY = 0;
 
-export class Log {
+export class CaculatedLog {
 
   public readonly date: string;
 

@@ -1,11 +1,11 @@
 import React, { ReactElement } from 'react';
 
-import { Log } from './Log';
+import { CaculatedLog } from './CaculatedLog';
 
 import MonthlyLogRecord from "./MonthlyLogRecord";
 
 export interface MonthlyLogTableProps {
-  logs: Log[];
+  logs: CaculatedLog[];
   onActivate: (activeDate: string) => void,
 }
 

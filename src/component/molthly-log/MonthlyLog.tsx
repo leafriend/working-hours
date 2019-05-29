@@ -5,7 +5,7 @@ import './MonthlyLog.scss';
 import { Nullable, zerofill } from '../../lib';
 import { LeaveType, LogSource } from '../../log/types';
 
-import { BalanceHolder, Log, toSource } from './Log';
+import { BalanceHolder, CaculatedLog, toSource } from './CaculatedLog';
 import MonthlyLogEditor from './MonthlyLogEditor';
 import MonthlyLogTable from './MonthlyLogTable';
 
@@ -18,9 +18,9 @@ const BALANCE_HOLDER: BalanceHolder = {
   balance: '00:00',
 };
 
-function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>[], holidays: string[], activeDate: string): Log[] {
+function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>[], holidays: string[], activeDate: string): CaculatedLog[] {
   let balanceHolder: BalanceHolder = BALANCE_HOLDER;
-  const logs = Array(sources.length);
+  const calculatedLogs = Array(sources.length);
   sources.forEach((source, i) => {
     const refined = source ? source : {
       date: `${yearMonth}-${zerofill(i + 1)}`,
@@ -31,11 +31,11 @@ function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>
 
     const isActive = activeDate === refined.date;
 
-    const log = new Log(refined, balanceHolder, isHoliday, isActive);
-    logs[i] = log;
-    balanceHolder = log;
+    const calculatedLog = new CaculatedLog(refined, balanceHolder, isHoliday, isActive);
+    calculatedLogs[i] = calculatedLog;
+    balanceHolder = calculatedLog;
   })
-  return logs;
+  return calculatedLogs;
 }
 
 export interface MonthlyLogProps {
@@ -47,19 +47,19 @@ export interface MonthlyLogProps {
 
 export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
 
-  const [activeLog, setActiveLog] = useState<Log>(
-    new Log({ date: TODAY, leaveType: LeaveType.WORK }, BALANCE_HOLDER, false, true)
+  const [activeLog, setActiveLog] = useState<CaculatedLog>(
+    new CaculatedLog({ date: TODAY, leaveType: LeaveType.WORK }, BALANCE_HOLDER, false, true)
   );
 
-  const [logs, setLogs] = useState<Log[]>([]);
+  const [calculatedLogs, setCalculatedLogs] = useState<CaculatedLog[]>([]);
   useEffect(() => {
-    setLogs(convertLogSourcesToLogs(
+    setCalculatedLogs(convertLogSourcesToLogs(
       props.yearMonth,
       props.logs,
       props.holidays,
       activeLog.date,
     ));
-    logs.forEach(log => {
+    calculatedLogs.forEach(log => {
       if (log.isActive) {
         handleActivate(log.date);
       }
@@ -79,7 +79,7 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
     props.onLogsChange(sources);
 
     const newLogs = convertLogSourcesToLogs(props.yearMonth, sources, props.holidays, source.date);
-    setLogs(newLogs);
+    setCalculatedLogs(newLogs);
     const activeLogs = newLogs.filter(log => log.isActive);
     if (activeLogs.length > 0) {
       setActiveLog(activeLogs[0]);
@@ -88,8 +88,8 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
 
   const [initialized, setInitialized] = useState(false);
   function handleActivate(activeDate: string): void {
-    logs.forEach(log => log.isActive = log.date === activeDate);
-    setLogs(logs);
+    calculatedLogs.forEach(log => log.isActive = log.date === activeDate);
+    setCalculatedLogs(calculatedLogs);
 
     if (!initialized) {
       const container = document.getElementById(`content-container`);
@@ -100,7 +100,7 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
       }
     }
 
-    const activeLog = logs.find(log => log.isActive);
+    const activeLog = calculatedLogs.find(log => log.isActive);
     activeLog && setActiveLog(activeLog);
   }
 
@@ -108,13 +108,13 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
     <React.Fragment>
       <div id="content-container">
         <MonthlyLogTable
-          logs={logs}
+          logs={calculatedLogs}
           onActivate={handleActivate}
         />
       </div>
       <div>
         <MonthlyLogEditor
-          log={activeLog}
+          calculatedLog={activeLog}
           onLogChange={handleLogChange}
         />
       </div>

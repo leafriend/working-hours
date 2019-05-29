@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react';
 
-import { Log } from './Log';
+import { CaculatedLog } from './CaculatedLog';
 
 export interface MonthlyLogRecordProps {
-  log: Log;
+  log: CaculatedLog;
   onActivate: (activeDate: string) => void,
 }
 
