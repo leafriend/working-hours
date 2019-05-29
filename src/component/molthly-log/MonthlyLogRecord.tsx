@@ -25,10 +25,10 @@ export default function MonthlyLogRecord(props: MonthlyLogRecordProps): ReactEle
       <td>{props.log.leaveType}</td>
       <td className="time">{formatu(props.log.startedAt) || ''}</td>
       <td className="time">{formatu(props.log.finishedAt) || ''}</td>
-      <td className="time">{props.log.working || ''}</td>
-      <td className="time">{props.log.overall}</td>
-      <td className="time">{props.log.target}</td>
-      <td className="time">{props.log.balance}</td>
+      <td className="time">{formatu(props.log.working) || ''}</td>
+      <td className="time">{formatu(props.log.overall)}</td>
+      <td className="time">{formatu(props.log.target)}</td>
+      <td className="time">{formatu(props.log.balance)}</td>
     </tr>
   );
 }

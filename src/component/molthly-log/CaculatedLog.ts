@@ -31,9 +31,9 @@ export function format(minutes: number): string {
 }
 
 export interface Accumulation {
-  readonly overall: string;
-  readonly target: string;
-  readonly balance: string
+  readonly overall: number;
+  readonly target: number;
+  readonly balance: number
 }
 
 const SATURDAY = 6;
@@ -74,32 +74,27 @@ export class CaculatedLog {
 
   }
 
-  public get overall(): string {
-
-    if (this.leaveType !== LeaveType.FULL && (this.startedAt === undefined || this.finishedAt === undefined)) {
+  public get overall(): number {
+    if (this.working === undefined) {
       return this.accumulation.overall;
     }
 
-    const overall = parse(this.accumulation.overall);
-    const working = parse(this.working!);
-    return format(overall + working);
-
+    return this.accumulation.overall + this.working;
   }
 
-  public get target(): string {
+  public get target(): number {
 
     if (this.isHoliday || this.isSaturday || this.isSunday) {
       return this.accumulation.target;
     }
 
-    const target = parse(this.accumulation.target);
-    return format(target + 8 * 60);
+    return this.accumulation.target + 8 * 60;
 
   }
 
-  public get working(): string | undefined {
+  public get working(): number | undefined {
     if (this.leaveType === LeaveType.FULL) {
-      return format(9.5 * 60);
+      return 9.5 * 60;
     }
 
     if (this.startedAt === undefined || this.finishedAt === undefined) {
@@ -134,29 +129,23 @@ export class CaculatedLog {
 
     })()
 
-    return format(working);
+    return working;
   }
 
-  public get overtime(): string | undefined {
-    const working = this.working;
-    if (working === undefined) {
+  public get overtime(): number | undefined {
+    if (this.working === undefined) {
       return undefined;
     }
 
-    const overMinutes = parse(working) - (8 * 60);
-    return format(overMinutes);
+    return this.working - (8 * 60);
   }
 
-  public get balance(): string {
-    const overtime = this.overtime;
-    if (overtime === undefined) {
+  public get balance(): number {
+    if (this.overtime === undefined) {
       return this.accumulation.balance;
     }
 
-    const balanceMinutes = parse(this.accumulation.balance);
-    const overtimeMinutes = parse(overtime);
-
-    return format(balanceMinutes + overtimeMinutes);
+    return this.accumulation.balance + this.overtime;
   }
 
 }

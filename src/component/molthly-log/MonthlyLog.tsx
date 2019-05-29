@@ -13,9 +13,9 @@ const NOW = new Date();
 const TODAY = `${NOW.getFullYear()}-${zerofill(NOW.getMonth() + 1)}-${zerofill(NOW.getDate())}`;
 
 const ACCUMULATION: Accumulation = {
-  overall: '00:00',
-  target: '00:00',
-  balance: '00:00',
+  overall: 0,
+  target: 0,
+  balance: 0,
 };
 
 function convertLogsToCaculatedLogs(logs: Log[], activeDate: string): CaculatedLog[] {
