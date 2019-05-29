@@ -1,14 +1,16 @@
 import React, { ReactElement, useState } from 'react';
 
 import './App.scss';
-import MonthlyLog from './MonthlyLog';
-import Header from './Header';
-import JsonView from './JsonView';
-import Footer from './Footer';
-import { Nullable } from './lib';
-import { LogSource } from './log/types';
-import { LocalLogsSet } from './storage/local';
-import { LogsSet } from './storage/types';
+
+import { Nullable } from '../lib';
+import { LogSource } from '../log/types';
+import { LocalLogsSet } from '../storage/local';
+import { LogsSet } from '../storage/types';
+
+import JsonView from './json-view/JsonView';
+import Footer from './layout/Footer';
+import Header from './layout/Header';
+import MonthlyLog from './molthly-log/MonthlyLog';
 
 const YEAR_MONTH = '2019-05';
 const HOLIDAYS = [

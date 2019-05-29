@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import './MonthlyLogEditor.scss';
 
-import { Log, LeaveType, LogSource } from './log/types';
+import { LeaveType, Log, LogSource } from '../../log/types';
 
 export interface MonthlyLogEditorProps {
   log: Log;

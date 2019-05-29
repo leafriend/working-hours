@@ -2,8 +2,9 @@ import React, { ReactElement } from 'react';
 import format from 'json-format';
 
 import './JsonView.scss';
-import { LogSource } from './log/types';
-import { Nullable } from './lib';
+
+import { LogSource } from '../../log/types';
+import { Nullable } from '../../lib';
 
 export interface JsonViewProps {
   logs: Nullable<LogSource>[];

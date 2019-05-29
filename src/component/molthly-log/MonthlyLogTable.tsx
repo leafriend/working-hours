@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
 
+import { Log } from '../../log/types';
+
 import MonthlyLogRecord from "./MonthlyLogRecord";
-import { Log } from './log/types';
 
 export interface MonthlyLogTableProps {
   logs: Log[];

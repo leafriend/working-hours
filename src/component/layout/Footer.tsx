@@ -1,8 +1,9 @@
 import React, { ReactElement } from 'react';
 
 import './Footer.scss';
-import MonthlyLog from './MonthlyLog';
-import JsonView from './JsonView';
+
+import JsonView from '../json-view/JsonView';
+import MonthlyLog from '../molthly-log/MonthlyLog';
 
 const TABLE = MonthlyLog.name;
 const TEXT = JsonView.name;
