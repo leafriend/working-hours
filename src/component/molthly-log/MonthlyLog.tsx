@@ -18,16 +18,14 @@ const BALANCE_HOLDER: BalanceHolder = {
   balance: '00:00',
 };
 
-function convertLogSourcesToLogs(logs: Log[], holidays: string[], activeDate: string): CaculatedLog[] {
+function convertLogSourcesToLogs(logs: Log[], activeDate: string): CaculatedLog[] {
   let balanceHolder: BalanceHolder = BALANCE_HOLDER;
   const calculatedLogs = Array(logs.length);
   logs.forEach((log, i) => {
 
-    const isHoliday = holidays.indexOf(log.date) >= 0;
-
     const isActive = activeDate === log.date;
 
-    const calculatedLog = new CaculatedLog(log, balanceHolder, isHoliday, isActive);
+    const calculatedLog = new CaculatedLog(log, balanceHolder, isActive);
     calculatedLogs[i] = calculatedLog;
     balanceHolder = calculatedLog;
   })
@@ -35,7 +33,6 @@ function convertLogSourcesToLogs(logs: Log[], holidays: string[], activeDate: st
 }
 
 export interface MonthlyLogProps {
-  holidays: string[];
   logs: Log[];
   onLogsChange: (logs: Log[]) => void,
 }
@@ -43,14 +40,13 @@ export interface MonthlyLogProps {
 export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
 
   const [activeLog, setActiveLog] = useState<CaculatedLog>(
-    new CaculatedLog({ date: TODAY, leaveType: LeaveType.WORK }, BALANCE_HOLDER, false, true)
+    new CaculatedLog({ date: TODAY, isHoliday: false, leaveType: LeaveType.WORK }, BALANCE_HOLDER, true)
   );
 
   const [calculatedLogs, setCalculatedLogs] = useState<CaculatedLog[]>([]);
   useEffect(() => {
     setCalculatedLogs(convertLogSourcesToLogs(
       props.logs,
-      props.holidays,
       activeLog.date,
     ));
     calculatedLogs.forEach(log => {
@@ -66,7 +62,7 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
       ;
     props.onLogsChange(logs);
 
-    const newLogs = convertLogSourcesToLogs(logs, props.holidays, log.date);
+    const newLogs = convertLogSourcesToLogs(logs, log.date);
     setCalculatedLogs(newLogs);
     const activeLogs = newLogs.filter(log => log.isActive);
     if (activeLogs.length > 0) {

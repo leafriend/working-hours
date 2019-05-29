@@ -3,15 +3,23 @@ import { Log, LeaveType } from "../log/types";
 
 import { LogsSet } from "./types";
 
+const HOLIDAYS = [
+  '2019-05-01',
+  '2019-05-06',
+  '2019-06-06',
+];
+
 interface Hash {
   [yearMonth: string]: Log[];
 }
 
 const LOCAL_STORAGE_KEY = 'logsSet';
 
-function newLog(yearMonth: string, date: number): Log {
+function newLog(yearMonth: string, day: number): Log {
+  const date = `${yearMonth}-${zerofill(day)}`;
   return {
-    date: `${yearMonth}-${zerofill(date)}`,
+    date,
+    isHoliday: HOLIDAYS.includes(date),
     leaveType: LeaveType.WORK,
   };
 }
@@ -49,7 +57,10 @@ export class LocalLogsSet implements LogsSet {
   }
 
   public setLogs(yearMonth: string, logs: Log[]): void {
-    this.hash[yearMonth] = logs.map(({ date, leaveType, startedAt, finishedAt }) => ({ date, leaveType, startedAt, finishedAt }));
+    this.hash[yearMonth] = logs.map(
+      ({ date, isHoliday, leaveType, startedAt, finishedAt }) =>
+        ({ date, isHoliday, leaveType, startedAt, finishedAt })
+    );
 
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.hash));
   }

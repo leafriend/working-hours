@@ -12,10 +12,6 @@ import Header from './layout/Header';
 import MonthlyLog from './molthly-log/MonthlyLog';
 
 const YEAR_MONTH = '2019-05';
-const HOLIDAYS = [
-  '2019-05-01',
-  '2019-05-06',
-];
 
 const TABLE = MonthlyLog.name;
 const TEXT = JsonView.name;
@@ -42,7 +38,6 @@ export default function App(): ReactElement {
             case TABLE:
               return (
                 <MonthlyLog
-                  holidays={HOLIDAYS}
                   logs={logs}
                   onLogsChange={handleLogsChange}
                 />

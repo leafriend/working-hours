@@ -6,6 +6,7 @@ export enum LeaveType {
 
 export interface Log {
   readonly date: string;
+  readonly isHoliday: boolean;
   readonly leaveType: LeaveType;
   readonly startedAt?: string;
   readonly finishedAt?: string;

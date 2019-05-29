@@ -29,6 +29,8 @@ export class CaculatedLog {
 
   public readonly date: string;
 
+  public readonly isHoliday: boolean;
+
   public readonly leaveType: LeaveType;
 
   public readonly startedAt?: string;
@@ -42,10 +44,10 @@ export class CaculatedLog {
   public constructor(
     log: Log,
     private readonly balanceHolder: BalanceHolder,
-    public readonly isHoliday: boolean,
     public isActive: boolean,
   ) {
     this.date = log.date;
+    this.isHoliday = log.isHoliday;
     this.leaveType = log.leaveType;
     this.startedAt = log.startedAt;
     this.finishedAt = log.finishedAt;
