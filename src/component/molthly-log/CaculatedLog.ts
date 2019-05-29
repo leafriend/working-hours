@@ -16,7 +16,7 @@ export function convertMinutesToTime(minutes: number): string {
   return `${sign}${zerofill(hours)}:${zerofill(rest)}`;
 }
 
-export interface BalanceHolder {
+export interface Accumulation {
   readonly overall: string;
   readonly target: string;
   readonly balance: string
@@ -43,7 +43,7 @@ export class CaculatedLog {
 
   public constructor(
     log: Log,
-    private readonly balanceHolder: BalanceHolder,
+    private readonly accumulation: Accumulation,
     public isActive: boolean,
   ) {
     this.date = log.date;
@@ -63,10 +63,10 @@ export class CaculatedLog {
   public get overall(): string {
 
     if (this.leaveType !== LeaveType.FULL && (this.startedAt === undefined || this.finishedAt === undefined)) {
-      return this.balanceHolder.overall;
+      return this.accumulation.overall;
     }
 
-    const overall = convertTimeToMinutes(this.balanceHolder.overall);
+    const overall = convertTimeToMinutes(this.accumulation.overall);
     const working = convertTimeToMinutes(this.working!);
     return convertMinutesToTime(overall + working);
 
@@ -75,10 +75,10 @@ export class CaculatedLog {
   public get target(): string {
 
     if (this.isHoliday || this.isSaturday || this.isSunday) {
-      return this.balanceHolder.target;
+      return this.accumulation.target;
     }
 
-    const target = convertTimeToMinutes(this.balanceHolder.target);
+    const target = convertTimeToMinutes(this.accumulation.target);
     return convertMinutesToTime(target + 8 * 60);
 
   }
@@ -138,10 +138,10 @@ export class CaculatedLog {
   public get balance(): string {
     const overtime = this.overtime;
     if (overtime === undefined) {
-      return this.balanceHolder.balance;
+      return this.accumulation.balance;
     }
 
-    const balanceMinutes = convertTimeToMinutes(this.balanceHolder.balance);
+    const balanceMinutes = convertTimeToMinutes(this.accumulation.balance);
     const overtimeMinutes = convertTimeToMinutes(overtime);
 
     return convertMinutesToTime(balanceMinutes + overtimeMinutes);

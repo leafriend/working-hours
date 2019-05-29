@@ -5,29 +5,29 @@ import './MonthlyLog.scss';
 import { zerofill } from '../../lib';
 import { LeaveType, Log } from '../../log/types';
 
-import { BalanceHolder, CaculatedLog } from './CaculatedLog';
+import { Accumulation, CaculatedLog } from './CaculatedLog';
 import MonthlyLogEditor from './MonthlyLogEditor';
 import MonthlyLogTable from './MonthlyLogTable';
 
 const NOW = new Date();
 const TODAY = `${NOW.getFullYear()}-${zerofill(NOW.getMonth() + 1)}-${zerofill(NOW.getDate())}`;
 
-const BALANCE_HOLDER: BalanceHolder = {
+const ACCUMULATION: Accumulation = {
   overall: '00:00',
   target: '00:00',
   balance: '00:00',
 };
 
 function convertLogsToCaculatedLogs(logs: Log[], activeDate: string): CaculatedLog[] {
-  let balanceHolder: BalanceHolder = BALANCE_HOLDER;
+  let accumulation: Accumulation = ACCUMULATION;
   const calculatedLogs = Array(logs.length);
   logs.forEach((log, i) => {
 
     const isActive = activeDate === log.date;
 
-    const calculatedLog = new CaculatedLog(log, balanceHolder, isActive);
+    const calculatedLog = new CaculatedLog(log, accumulation, isActive);
     calculatedLogs[i] = calculatedLog;
-    balanceHolder = calculatedLog;
+    accumulation = calculatedLog;
   })
   return calculatedLogs;
 }
@@ -40,7 +40,7 @@ export interface MonthlyLogProps {
 export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
 
   const [activeLog, setActiveLog] = useState<CaculatedLog>(
-    new CaculatedLog({ date: TODAY, isHoliday: false, leaveType: LeaveType.WORK }, BALANCE_HOLDER, true)
+    new CaculatedLog({ date: TODAY, isHoliday: false, leaveType: LeaveType.WORK }, ACCUMULATION, true)
   );
 
   const [calculatedLogs, setCalculatedLogs] = useState<CaculatedLog[]>([]);
