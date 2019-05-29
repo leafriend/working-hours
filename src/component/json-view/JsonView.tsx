@@ -4,11 +4,10 @@ import format from 'json-format';
 import './JsonView.scss';
 
 import { Log } from '../../log/types';
-import { Nullable } from '../../lib';
 
 export interface JsonViewProps {
-  logs: Nullable<Log>[];
-  onLogsChange: (logs: Nullable<Log>[]) => void,
+  logs: Log[];
+  onLogsChange: (logs: Log[]) => void,
 }
 
 export default function JsonView(props: JsonViewProps): ReactElement {

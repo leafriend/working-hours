@@ -1,4 +1,4 @@
-import { zerofill, Nullable } from "../../lib";
+import { zerofill } from "../../lib";
 import { LeaveType, Log } from "../../log/types";
 
 export function convertTimeToMinutes(time: string): number {
@@ -14,17 +14,6 @@ export function convertMinutesToTime(minutes: number): string {
   const hours = Math.floor(abs / 60);
   const rest = abs - (hours * 60);
   return `${sign}${zerofill(hours)}:${zerofill(rest)}`;
-}
-
-export function toSource(source: Nullable<Log>): Nullable<Log> {
-  if (source === null) {
-    return null;
-  }
-  const { date, leaveType, startedAt, finishedAt } = source;
-  if (leaveType === LeaveType.WORK && startedAt === undefined && finishedAt === undefined) {
-    return null
-  }
-  return { date, leaveType, startedAt, finishedAt };
 }
 
 export interface BalanceHolder {

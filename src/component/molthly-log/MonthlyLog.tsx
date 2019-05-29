@@ -2,10 +2,10 @@ import React, { ReactElement, useEffect, useState } from 'react';
 
 import './MonthlyLog.scss';
 
-import { Nullable, zerofill } from '../../lib';
+import { zerofill } from '../../lib';
 import { LeaveType, Log } from '../../log/types';
 
-import { BalanceHolder, CaculatedLog, toSource } from './CaculatedLog';
+import { BalanceHolder, CaculatedLog } from './CaculatedLog';
 import MonthlyLogEditor from './MonthlyLogEditor';
 import MonthlyLogTable from './MonthlyLogTable';
 
@@ -18,20 +18,16 @@ const BALANCE_HOLDER: BalanceHolder = {
   balance: '00:00',
 };
 
-function convertLogSourcesToLogs(yearMonth: string, logs: Nullable<Log>[], holidays: string[], activeDate: string): CaculatedLog[] {
+function convertLogSourcesToLogs(yearMonth: string, logs: Log[], holidays: string[], activeDate: string): CaculatedLog[] {
   let balanceHolder: BalanceHolder = BALANCE_HOLDER;
   const calculatedLogs = Array(logs.length);
   logs.forEach((log, i) => {
-    const refined = log ? log : {
-      date: `${yearMonth}-${zerofill(i + 1)}`,
-      leaveType: LeaveType.WORK,
-    };
 
-    const isHoliday = holidays.indexOf(refined.date) >= 0;
+    const isHoliday = holidays.indexOf(log.date) >= 0;
 
-    const isActive = activeDate === refined.date;
+    const isActive = activeDate === log.date;
 
-    const calculatedLog = new CaculatedLog(refined, balanceHolder, isHoliday, isActive);
+    const calculatedLog = new CaculatedLog(log, balanceHolder, isHoliday, isActive);
     calculatedLogs[i] = calculatedLog;
     balanceHolder = calculatedLog;
   })
@@ -41,8 +37,8 @@ function convertLogSourcesToLogs(yearMonth: string, logs: Nullable<Log>[], holid
 export interface MonthlyLogProps {
   yearMonth: string;
   holidays: string[];
-  logs: Nullable<Log>[];
-  onLogsChange: (logs: Nullable<Log>[]) => void,
+  logs: Log[];
+  onLogsChange: (logs: Log[]) => void,
 }
 
 export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
@@ -67,14 +63,8 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
   }, []);
 
   function handleLogChange(log: Log) {
-    const date = parseInt(log.date.substring(8), 10);
     const logs = props.logs
-      .map((log, i) =>
-        log === null
-          ? (i + 1 === date ? log : log)
-          : (log.date === log.date ? log : log)
-      )
-      .map(toSource)
+      .map(oldLog => log.date === oldLog.date ? log : oldLog)
       ;
     props.onLogsChange(logs);
 
