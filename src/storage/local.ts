@@ -40,6 +40,14 @@ export class LocalLogsSet implements LogsSet {
       localStorage.setItem(LOCAL_STORAGE_KEY, '{}');
     } else {
       this.hash = JSON.parse(json);
+
+      // Old data fixing: isHoliday
+      Object.entries(this.hash).forEach(([yearMonth, logs]) => {
+        this.hash[yearMonth] = logs.map(
+          ({ date, leaveType, startedAt, finishedAt}) =>
+            ({ date, isHoliday: HOLIDAYS.includes(date), leaveType, startedAt, finishedAt})
+        );
+      });
     }
   }
 
