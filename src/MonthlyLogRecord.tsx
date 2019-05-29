@@ -2,12 +2,12 @@ import React, { ReactElement } from 'react';
 
 import { Log } from './log/types';
 
-export interface DailyLogProps {
+export interface MonthlyLogRecordProps {
   log: Log;
   onActivate: (activeDate: string) => void,
 }
 
-export default function DailyLog(props: DailyLogProps): ReactElement {
+export default function MonthlyLogRecord(props: MonthlyLogRecordProps): ReactElement {
   return (
     <tr
       id={`log-${props.log.date}`}

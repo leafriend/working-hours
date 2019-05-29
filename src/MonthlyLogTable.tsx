@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import DailyLog from "./DailyLog";
+import MonthlyLogRecord from "./MonthlyLogRecord";
 import { Log } from './log/types';
 
 export interface MonthlyLogTableProps {
@@ -25,7 +25,7 @@ export default function MonthlyLogTable(props: MonthlyLogTableProps): ReactEleme
       </thead>
       <tbody>
         {props.logs.map(log => (
-          <DailyLog
+          <MonthlyLogRecord
             key={log.date}
             log={log}
             onActivate={props.onActivate}
