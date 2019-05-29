@@ -1,5 +1,5 @@
 import { lastDateOf, Nullable, zerofill } from "../lib";
-import { Log } from "../log/types";
+import { Log, LeaveType } from "../log/types";
 
 import { LogsSet } from "./types";
 
@@ -8,6 +8,19 @@ interface Hash {
 }
 
 const LOCAL_STORAGE_KEY = 'logsSet';
+
+function newLog(yearMonth: string, date: number): Log {
+  return {
+    date: `${yearMonth}-${zerofill(date)}`,
+    leaveType: LeaveType.WORK,
+  };
+}
+
+function fill(yearMonth: string): (log: Nullable<Log>, i: number) => Log {
+  return (log: Nullable<Log>, i: number) =>
+    log === null ? newLog(yearMonth, i + 1) : log
+    ;
+}
 
 export class LocalLogsSet implements LogsSet {
 
@@ -20,32 +33,17 @@ export class LocalLogsSet implements LogsSet {
     } else {
       this.hash = JSON.parse(json);
     }
-
-    // TODO Temporary code: previous version format doesn't contain date
-    // -> fill date
-    Object.entries(this.hash).forEach(([key, logs]) => {
-      this.hash[key] = logs.map((log, i) => {
-        if (log && !log.date) {
-          return {
-            date: `${key}-${zerofill(i + 1)}`,
-            ...log,
-          }
-        } else {
-          return log;
-        }
-      });
-    })
   }
 
-  public getLogs(yearMonth: string): Nullable<Log>[] {
+  public getLogs(yearMonth: string): Log[] {
     if (yearMonth in this.hash) {
-      return this.hash[yearMonth];
+      return this.hash[yearMonth].map(fill(yearMonth));
     }
 
     const [year, month] = yearMonth.split('-').map(str => parseInt(str));
     const lastDate = lastDateOf(year, month);
 
-    const logs = Array<Nullable<Log>>(lastDate).fill(null);
+    const logs = Array<Nullable<Log>>(lastDate).fill(null).map(fill(yearMonth));
     this.setLogs(yearMonth, logs);
     return logs;
   }

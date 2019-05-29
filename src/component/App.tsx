@@ -24,7 +24,7 @@ const TEXT = JsonView.name;
 const logsSet: LogsSet = new LocalLogsSet();
 
 export default function App(): ReactElement {
-  const [logs, setLogs] = useState(logsSet.getLogs(YEAR_MONTH));
+  const [logs, setLogs] = useState<Nullable<Log>[]>(logsSet.getLogs(YEAR_MONTH));
   const [viewMode, setViewMode] = useState(TABLE);
 
   function handleLogsChange(logs: Nullable<Log>[]) {
