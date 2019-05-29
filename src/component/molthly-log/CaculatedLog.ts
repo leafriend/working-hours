@@ -74,24 +74,6 @@ export class CaculatedLog {
 
   }
 
-  public get overall(): number {
-    if (this.working === undefined) {
-      return this.accumulation.overall;
-    }
-
-    return this.accumulation.overall + this.working;
-  }
-
-  public get target(): number {
-
-    if (this.isHoliday || this.isSaturday || this.isSunday) {
-      return this.accumulation.target;
-    }
-
-    return this.accumulation.target + 8 * 60;
-
-  }
-
   public get working(): number | undefined {
     if (this.leaveType === LeaveType.FULL) {
       return 9.5 * 60;
@@ -138,6 +120,24 @@ export class CaculatedLog {
     }
 
     return this.working - (8 * 60);
+  }
+
+  public get overall(): number {
+    if (this.working === undefined) {
+      return this.accumulation.overall;
+    }
+
+    return this.accumulation.overall + this.working;
+  }
+
+  public get target(): number {
+
+    if (this.isHoliday || this.isSaturday || this.isSunday) {
+      return this.accumulation.target;
+    }
+
+    return this.accumulation.target + 8 * 60;
+
   }
 
   public get balance(): number {
