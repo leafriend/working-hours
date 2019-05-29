@@ -46,7 +46,7 @@ export class CaculatedLog {
   public readonly isSunday: boolean;
 
   public constructor(
-    private readonly log: Log,
+    public log: Log,
     private readonly accumulation: Accumulation,
     public isActive: boolean,
   ) {

@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { CaculatedLog, formatu } from './CaculatedLog';
 
 export interface MonthlyLogRecordProps {
-  log: CaculatedLog;
+  log: Readonly<CaculatedLog>;
   onActivate: (activeDate: string) => void,
 }
 
