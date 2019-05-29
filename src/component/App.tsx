@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import './App.scss';
 
 import { Nullable } from '../lib';
-import { LogSource } from '../log/types';
+import { Log } from '../log/types';
 import { LocalLogsSet } from '../storage/local';
 import { LogsSet } from '../storage/types';
 
@@ -24,12 +24,12 @@ const TEXT = JsonView.name;
 const logsSet: LogsSet = new LocalLogsSet();
 
 export default function App(): ReactElement {
-  const [logs, setLogs] = useState(logsSet.getLogSources(YEAR_MONTH));
+  const [logs, setLogs] = useState(logsSet.getLogs(YEAR_MONTH));
   const [viewMode, setViewMode] = useState(TABLE);
 
-  function handleLogsChange(sources: Nullable<LogSource>[]) {
-    setLogs(sources);
-    logsSet.setLogSources(YEAR_MONTH, sources);
+  function handleLogsChange(logs: Nullable<Log>[]) {
+    setLogs(logs);
+    logsSet.setLogs(YEAR_MONTH, logs);
   }
 
   return (

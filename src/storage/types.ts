@@ -1,7 +1,7 @@
 import { Nullable } from "../lib";
-import { LogSource } from "../log/types";
+import { Log } from "../log/types";
 
 export interface LogsSet {
-  getLogSources(yearMonth: string): Nullable<LogSource>[];
-  setLogSources(yearMonth: string, logs: Nullable<LogSource>[]): void;
+  getLogs(yearMonth: string): Nullable<Log>[];
+  setLogs(yearMonth: string, logs: Nullable<Log>[]): void;
 }

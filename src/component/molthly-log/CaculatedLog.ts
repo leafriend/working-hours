@@ -1,5 +1,5 @@
 import { zerofill, Nullable } from "../../lib";
-import { LeaveType, LogSource } from "../../log/types";
+import { LeaveType, Log } from "../../log/types";
 
 export function convertTimeToMinutes(time: string): number {
   const sign = time.charAt(0) === '-' ? -1 : 1;
@@ -16,7 +16,7 @@ export function convertMinutesToTime(minutes: number): string {
   return `${sign}${zerofill(hours)}:${zerofill(rest)}`;
 }
 
-export function toSource(source: Nullable<LogSource>): Nullable<LogSource> {
+export function toSource(source: Nullable<Log>): Nullable<Log> {
   if (source === null) {
     return null;
   }
@@ -51,7 +51,7 @@ export class CaculatedLog {
   public readonly isSunday: boolean;
 
   public constructor(
-    log: LogSource,
+    log: Log,
     private readonly balanceHolder: BalanceHolder,
     public readonly isHoliday: boolean,
     public isActive: boolean,

@@ -2,13 +2,13 @@ import React, { ReactElement } from 'react';
 
 import './MonthlyLogEditor.scss';
 
-import { LeaveType, LogSource } from '../../log/types';
+import { LeaveType, Log } from '../../log/types';
 
 import { CaculatedLog } from './CaculatedLog';
 
 export interface MonthlyLogEditorProps {
   calculatedLog: CaculatedLog;
-  onLogChange: (source: LogSource) => void,
+  onLogChange: (log: Log) => void,
 }
 
 type LeaveTypeLog = Pick<CaculatedLog, 'leaveType'>;
@@ -23,12 +23,12 @@ export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactEle
   const readOnly = log.leaveType === LeaveType.FULL;
 
   function handleChange(partial: PartialLog) {
-    const source = {
-      ...log,
+    const log = {
+      ...props.calculatedLog,
       ...partial,
     };
 
-    props.onLogChange(source);
+    props.onLogChange(log);
   }
 
   return (

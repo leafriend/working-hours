@@ -3,7 +3,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import './MonthlyLog.scss';
 
 import { Nullable, zerofill } from '../../lib';
-import { LeaveType, LogSource } from '../../log/types';
+import { LeaveType, Log } from '../../log/types';
 
 import { BalanceHolder, CaculatedLog, toSource } from './CaculatedLog';
 import MonthlyLogEditor from './MonthlyLogEditor';
@@ -18,11 +18,11 @@ const BALANCE_HOLDER: BalanceHolder = {
   balance: '00:00',
 };
 
-function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>[], holidays: string[], activeDate: string): CaculatedLog[] {
+function convertLogSourcesToLogs(yearMonth: string, logs: Nullable<Log>[], holidays: string[], activeDate: string): CaculatedLog[] {
   let balanceHolder: BalanceHolder = BALANCE_HOLDER;
-  const calculatedLogs = Array(sources.length);
-  sources.forEach((source, i) => {
-    const refined = source ? source : {
+  const calculatedLogs = Array(logs.length);
+  logs.forEach((log, i) => {
+    const refined = log ? log : {
       date: `${yearMonth}-${zerofill(i + 1)}`,
       leaveType: LeaveType.WORK,
     };
@@ -41,8 +41,8 @@ function convertLogSourcesToLogs(yearMonth: string, sources: Nullable<LogSource>
 export interface MonthlyLogProps {
   yearMonth: string;
   holidays: string[];
-  logs: Nullable<LogSource>[];
-  onLogsChange: (sources: Nullable<LogSource>[]) => void,
+  logs: Nullable<Log>[];
+  onLogsChange: (logs: Nullable<Log>[]) => void,
 }
 
 export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
@@ -66,19 +66,19 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
     })
   }, []);
 
-  function handleLogChange(source: LogSource) {
-    const date = parseInt(source.date.substring(8), 10);
-    const sources = props.logs
+  function handleLogChange(log: Log) {
+    const date = parseInt(log.date.substring(8), 10);
+    const logs = props.logs
       .map((log, i) =>
         log === null
-          ? (i + 1 === date ? source : log)
-          : (log.date === source.date ? source : log)
+          ? (i + 1 === date ? log : log)
+          : (log.date === log.date ? log : log)
       )
       .map(toSource)
       ;
-    props.onLogsChange(sources);
+    props.onLogsChange(logs);
 
-    const newLogs = convertLogSourcesToLogs(props.yearMonth, sources, props.holidays, source.date);
+    const newLogs = convertLogSourcesToLogs(props.yearMonth, logs, props.holidays, log.date);
     setCalculatedLogs(newLogs);
     const activeLogs = newLogs.filter(log => log.isActive);
     if (activeLogs.length > 0) {

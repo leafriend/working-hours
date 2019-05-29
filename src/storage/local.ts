@@ -1,10 +1,10 @@
 import { lastDateOf, Nullable, zerofill } from "../lib";
-import { LogSource } from "../log/types";
+import { Log } from "../log/types";
 
 import { LogsSet } from "./types";
 
 interface Hash {
-  [yearMonth: string]: Nullable<LogSource>[];
+  [yearMonth: string]: Nullable<Log>[];
 }
 
 const LOCAL_STORAGE_KEY = 'logsSet';
@@ -23,21 +23,21 @@ export class LocalLogsSet implements LogsSet {
 
     // TODO Temporary code: previous version format doesn't contain date
     // -> fill date
-    Object.entries(this.hash).forEach(([key, sources]) => {
-      this.hash[key] = sources.map((source, i) => {
-        if (source && !source.date) {
+    Object.entries(this.hash).forEach(([key, logs]) => {
+      this.hash[key] = logs.map((log, i) => {
+        if (log && !log.date) {
           return {
             date: `${key}-${zerofill(i + 1)}`,
-            ...source,
+            ...log,
           }
         } else {
-          return source;
+          return log;
         }
       });
     })
   }
 
-  public getLogSources(yearMonth: string): Nullable<LogSource>[] {
+  public getLogs(yearMonth: string): Nullable<Log>[] {
     if (yearMonth in this.hash) {
       return this.hash[yearMonth];
     }
@@ -45,13 +45,13 @@ export class LocalLogsSet implements LogsSet {
     const [year, month] = yearMonth.split('-').map(str => parseInt(str));
     const lastDate = lastDateOf(year, month);
 
-    const sources = Array<Nullable<LogSource>>(lastDate).fill(null);
-    this.setLogSources(yearMonth, sources);
-    return sources;
+    const logs = Array<Nullable<Log>>(lastDate).fill(null);
+    this.setLogs(yearMonth, logs);
+    return logs;
   }
 
-  public setLogSources(yearMonth: string, sources: Nullable<LogSource>[]): void {
-    this.hash[yearMonth] = sources.map(source => (source ? { ...source } : null));
+  public setLogs(yearMonth: string, logs: Nullable<Log>[]): void {
+    this.hash[yearMonth] = logs.map(log => (log ? { ...log } : null));
 
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.hash));
   }

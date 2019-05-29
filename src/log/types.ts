@@ -4,7 +4,7 @@ export enum LeaveType {
   FULL = 'FULL',
 }
 
-export interface LogSource {
+export interface Log {
   readonly date: string;
   readonly leaveType: LeaveType;
   readonly startedAt?: string;
