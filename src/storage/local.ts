@@ -16,9 +16,9 @@ function newLog(yearMonth: string, date: number): Log {
   };
 }
 
-function fill(yearMonth: string): (log: Log, i: number) => Log {
-  return (log: Log | null | undefined, i: number) =>
-    (log === null || log === undefined) ? newLog(yearMonth, i + 1) : log
+function fill(yearMonth: string): (log: Log | null, i: number) => Log {
+  return (log: Log | null, i: number) =>
+    log === null ? newLog(yearMonth, i + 1) : log
     ;
 }
 
@@ -43,7 +43,7 @@ export class LocalLogsSet implements LogsSet {
     const [year, month] = yearMonth.split('-').map(str => parseInt(str));
     const lastDate = lastDateOf(year, month);
 
-    const logs = Array<Log>(lastDate).map(fill(yearMonth));
+    const logs = Array<null>(lastDate).fill(null).map(fill(yearMonth));
     this.setLogs(yearMonth, logs);
     return logs;
   }
