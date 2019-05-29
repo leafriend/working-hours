@@ -1,14 +1,14 @@
 import { zerofill } from "../../lib";
 import { LeaveType, Log } from "../../log/types";
 
-export function convertTimeToMinutes(time: string): number {
+export function parse(time: string): number {
   const sign = time.charAt(0) === '-' ? -1 : 1;
   const abs = sign < 0 ? time.substring(1) : time;
   const [hours, minutes] = abs.split(':').map(str => parseInt(str, 10));
   return sign * (hours * 60 + minutes);
 }
 
-export function convertMinutesToTime(minutes: number): string {
+export function format(minutes: number): string {
   const sign = minutes < 0 ? '-' : ''
   const abs = Math.abs(minutes);
   const hours = Math.floor(abs / 60);
@@ -66,9 +66,9 @@ export class CaculatedLog {
       return this.accumulation.overall;
     }
 
-    const overall = convertTimeToMinutes(this.accumulation.overall);
-    const working = convertTimeToMinutes(this.working!);
-    return convertMinutesToTime(overall + working);
+    const overall = parse(this.accumulation.overall);
+    const working = parse(this.working!);
+    return format(overall + working);
 
   }
 
@@ -78,22 +78,22 @@ export class CaculatedLog {
       return this.accumulation.target;
     }
 
-    const target = convertTimeToMinutes(this.accumulation.target);
-    return convertMinutesToTime(target + 8 * 60);
+    const target = parse(this.accumulation.target);
+    return format(target + 8 * 60);
 
   }
 
   public get working(): string | undefined {
     if (this.leaveType === LeaveType.FULL) {
-      return convertMinutesToTime(9.5 * 60);
+      return format(9.5 * 60);
     }
 
     if (this.startedAt === undefined || this.finishedAt === undefined) {
       return undefined;
     }
 
-    const startedAt = convertTimeToMinutes(this.startedAt);
-    const finishedAt = convertTimeToMinutes(this.finishedAt);
+    const startedAt = parse(this.startedAt);
+    const finishedAt = parse(this.finishedAt);
     const total = finishedAt - startedAt;
 
     const working = (() => {
@@ -122,7 +122,7 @@ export class CaculatedLog {
 
     })()
 
-    return convertMinutesToTime(working);
+    return format(working);
   }
 
   public get overtime(): string | undefined {
@@ -131,8 +131,8 @@ export class CaculatedLog {
       return undefined;
     }
 
-    const overMinutes = convertTimeToMinutes(working) - (8 * 60);
-    return convertMinutesToTime(overMinutes);
+    const overMinutes = parse(working) - (8 * 60);
+    return format(overMinutes);
   }
 
   public get balance(): string {
@@ -141,10 +141,10 @@ export class CaculatedLog {
       return this.accumulation.balance;
     }
 
-    const balanceMinutes = convertTimeToMinutes(this.accumulation.balance);
-    const overtimeMinutes = convertTimeToMinutes(overtime);
+    const balanceMinutes = parse(this.accumulation.balance);
+    const overtimeMinutes = parse(overtime);
 
-    return convertMinutesToTime(balanceMinutes + overtimeMinutes);
+    return format(balanceMinutes + overtimeMinutes);
   }
 
 }
