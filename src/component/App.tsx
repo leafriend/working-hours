@@ -64,6 +64,7 @@ export default function App(): ReactElement {
       </article>
       <Footer
         viewMode={viewMode}
+        viewModes={[TABLE, TEXT]}
         handleViewModeChange={viewMode => setViewMode(viewMode)}
       />
     </div>

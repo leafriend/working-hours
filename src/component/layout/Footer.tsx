@@ -2,14 +2,9 @@ import React, { ReactElement } from 'react';
 
 import './Footer.scss';
 
-import JsonView from '../json-view/JsonView';
-import MonthlyLog from '../molthly-log/MonthlyLog';
-
-const TABLE = MonthlyLog.name;
-const TEXT = JsonView.name;
-
 export interface FooterProps {
   viewMode: string;
+  viewModes: string[];
   handleViewModeChange: (viewMode: string) => void
 }
 
@@ -20,8 +15,9 @@ export default function Footer(props: FooterProps): ReactElement {
         value={props.viewMode}
         onChange={e => props.handleViewModeChange(e.target.value)}
       >
-        <option value={TABLE}>Table</option>
-        <option value={TEXT}>Text</option>
+        {props.viewModes.map(mode => (
+          <option key={mode} value={mode}>{mode}</option>
+        ))}
       </select>
       <a
         href="https://github.com/leafriend/working-hours/"
