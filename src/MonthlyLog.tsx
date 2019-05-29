@@ -1,8 +1,8 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 
 import './MonthlyLog.scss';
-import DailyLog from './DailyLog';
 import LogEditor from './LogEditor';
+import MonthlyLogTable from './MonthlyLogTable';
 import { Log, LeaveType, BalanceHolder, LogSource, toSource } from './log/types';
 import { zerofill, Nullable } from './lib';
 
@@ -104,29 +104,10 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
   return (
     <React.Fragment>
       <div id="content-container">
-        <table className="monthly-logs">
-          <thead>
-            <tr>
-              <th className="date">D.</th>
-              <th>Leave</th>
-              <th className="time">Start</th>
-              <th className="time">Fin.</th>
-              <th className="time">Work</th>
-              <th className="time">All</th>
-              <th className="time">Target</th>
-              <th className="time">Bal.</th>
-            </tr>
-          </thead>
-          <tbody>
-            {logs.map(log => (
-              <DailyLog
-                key={log.date}
-                log={log}
-                onActivate={handleActivate}
-              />
-            ))}
-          </tbody>
-        </table>
+        <MonthlyLogTable
+          logs={logs}
+          onActivate={handleActivate}
+        />
       </div>
       <div>
         <LogEditor
