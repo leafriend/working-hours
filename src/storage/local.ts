@@ -1,5 +1,5 @@
 import { lastDateOf, Nullable, zerofill } from "../lib";
-import { LogSource, toSource } from "../log/types";
+import { LogSource } from "../log/types";
 
 import { LogsSet } from "./types";
 
@@ -23,7 +23,7 @@ export class LocalLogsSet implements LogsSet {
 
     // TODO Temporary code: previous version format doesn't contain date
     // -> fill date
-    Object.entries(this.hash).forEach(([key,sources]) => {
+    Object.entries(this.hash).forEach(([key, sources]) => {
       this.hash[key] = sources.map((source, i) => {
         if (source && !source.date) {
           return {
@@ -51,7 +51,7 @@ export class LocalLogsSet implements LogsSet {
   }
 
   public setLogSources(yearMonth: string, sources: Nullable<LogSource>[]): void {
-    this.hash[yearMonth] = sources.map(toSource);
+    this.hash[yearMonth] = sources.map(source => (source ? { ...source } : null));
 
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.hash));
   }

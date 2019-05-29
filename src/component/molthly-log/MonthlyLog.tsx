@@ -3,8 +3,9 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import './MonthlyLog.scss';
 
 import { Nullable, zerofill } from '../../lib';
-import { BalanceHolder, LeaveType, Log, LogSource, toSource } from '../../log/types';
+import { LeaveType, LogSource } from '../../log/types';
 
+import { BalanceHolder, Log, toSource } from './Log';
 import MonthlyLogEditor from './MonthlyLogEditor';
 import MonthlyLogTable from './MonthlyLogTable';
 

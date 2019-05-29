@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Log } from '../../log/types';
+import { Log } from './Log';
 
 export interface MonthlyLogRecordProps {
   log: Log;
