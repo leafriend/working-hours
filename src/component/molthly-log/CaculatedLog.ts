@@ -41,30 +41,15 @@ const SUNDAY = 0;
 
 export class CaculatedLog {
 
-  public readonly date: string;
-
-  public readonly isHoliday: boolean;
-
-  public readonly leaveType: LeaveType;
-
-  public readonly startedAt?: number;
-
-  public readonly finishedAt?: number;
-
   public readonly isSaturday: boolean;
 
   public readonly isSunday: boolean;
 
   public constructor(
-    log: Log,
+    private readonly log: Log,
     private readonly accumulation: Accumulation,
     public isActive: boolean,
   ) {
-    this.date = log.date;
-    this.isHoliday = log.isHoliday;
-    this.leaveType = log.leaveType;
-    this.startedAt = parseu(log.startedAt);
-    this.finishedAt = parseu(log.finishedAt);
 
     const date = new Date(log.date);
     const weekday = date.getDay();
@@ -72,6 +57,26 @@ export class CaculatedLog {
     this.isSunday = weekday === SUNDAY;
     this.isSaturday = weekday === SATURDAY;
 
+  }
+
+  public get date(): string {
+    return this.log.date;
+  }
+
+  public get isHoliday(): boolean {
+    return this.log.isHoliday;
+  }
+
+  public get leaveType(): LeaveType {
+    return this.log.leaveType;
+  }
+
+  public get startedAt(): number | undefined {
+    return parseu(this.log.startedAt);
+  }
+
+  public get finishedAt(): number | undefined {
+    return parseu(this.log.finishedAt);
   }
 
   public get working(): number | undefined {
