@@ -49,43 +49,40 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
       props.logs,
       activeLog.date,
     ));
-    calculatedLogs.forEach(log => {
-      if (log.isActive) {
-        handleActivate(log.date);
-      }
-    })
   }, []);
 
-  function handleLogChange(log: Log) {
-    const logs = props.logs
-      .map(oldLog => log.date === oldLog.date ? log : oldLog)
-      ;
-    props.onLogsChange(logs);
-
-    const newLogs = convertLogsToCaculatedLogs(logs, log.date);
-    setCalculatedLogs(newLogs);
-    const activeLogs = newLogs.filter(log => log.isActive);
-    if (activeLogs.length > 0) {
-      setActiveLog(activeLogs[0]);
-    }
-  }
-
   const [initialized, setInitialized] = useState(false);
-  function handleActivate(activeDate: string): void {
-    calculatedLogs.forEach(log => log.isActive = log.date === activeDate);
-    setCalculatedLogs(calculatedLogs);
-
-    if (!initialized) {
+  useEffect(() => {
+    if (calculatedLogs.length > 0 && !initialized) {
       const container = document.getElementById(`content-container`);
-      const el = document.getElementById(`log-${activeDate}`);
+      const el = document.getElementById(`log-${activeLog.date}`);
       if (container && el) {
         setInitialized(true);
         container.scrollTo({ top: el.offsetTop });
       }
     }
+  }, [calculatedLogs]);
 
-    const activeLog = calculatedLogs.find(log => log.isActive);
-    activeLog && setActiveLog(activeLog);
+  function handleLogChange(log: Log) {
+    calculatedLogs.forEach(calculatedLog => {
+      if (calculatedLog.date === log.date) {
+        calculatedLog.log = log;
+      }
+    });
+    setCalculatedLogs(calculatedLogs);
+
+    const logs = calculatedLogs.map(calculatedLog => calculatedLog.log);
+    props.onLogsChange(logs);
+  }
+
+  function handleActivate(activeDate: string): void {
+    calculatedLogs.forEach(calculatedLog => {
+      calculatedLog.isActive = calculatedLog.date === activeDate;
+      if (calculatedLog.date === activeDate) {
+        setActiveLog(calculatedLog);
+      }
+    });
+    setCalculatedLogs(calculatedLogs);
   }
 
   return (
