@@ -1,11 +1,25 @@
 import { zerofill } from "../../lib";
 import { LeaveType, Log } from "../../log/types";
 
+export function parseu(time: string | undefined): number | undefined {
+  return time === undefined
+    ? undefined
+    : parse(time)
+    ;
+}
+
 export function parse(time: string): number {
   const sign = time.charAt(0) === '-' ? -1 : 1;
   const abs = sign < 0 ? time.substring(1) : time;
   const [hours, minutes] = abs.split(':').map(str => parseInt(str, 10));
   return sign * (hours * 60 + minutes);
+}
+
+export function formatu(minutes: number | undefined): string | undefined {
+  return minutes === undefined
+    ? undefined
+    : format(minutes)
+    ;
 }
 
 export function format(minutes: number): string {
@@ -33,9 +47,9 @@ export class CaculatedLog {
 
   public readonly leaveType: LeaveType;
 
-  public readonly startedAt?: string;
+  public readonly startedAt?: number;
 
-  public readonly finishedAt?: string;
+  public readonly finishedAt?: number;
 
   public readonly isSaturday: boolean;
 
@@ -49,8 +63,8 @@ export class CaculatedLog {
     this.date = log.date;
     this.isHoliday = log.isHoliday;
     this.leaveType = log.leaveType;
-    this.startedAt = log.startedAt;
-    this.finishedAt = log.finishedAt;
+    this.startedAt = parseu(log.startedAt);
+    this.finishedAt = parseu(log.finishedAt);
 
     const date = new Date(log.date);
     const weekday = date.getDay();
@@ -92,9 +106,7 @@ export class CaculatedLog {
       return undefined;
     }
 
-    const startedAt = parse(this.startedAt);
-    const finishedAt = parse(this.finishedAt);
-    const total = finishedAt - startedAt;
+    const total = this.finishedAt - this.startedAt;
 
     const working = (() => {
       switch (this.leaveType) {

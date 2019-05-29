@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { CaculatedLog } from './CaculatedLog';
+import { CaculatedLog, formatu } from './CaculatedLog';
 
 export interface MonthlyLogRecordProps {
   log: CaculatedLog;
@@ -23,8 +23,8 @@ export default function MonthlyLogRecord(props: MonthlyLogRecordProps): ReactEle
     >
       <td className="date">{new Date(props.log.date).getDate()}</td>
       <td>{props.log.leaveType}</td>
-      <td className="time">{props.log.startedAt || ''}</td>
-      <td className="time">{props.log.finishedAt || ''}</td>
+      <td className="time">{formatu(props.log.startedAt) || ''}</td>
+      <td className="time">{formatu(props.log.finishedAt) || ''}</td>
       <td className="time">{props.log.working || ''}</td>
       <td className="time">{props.log.overall}</td>
       <td className="time">{props.log.target}</td>

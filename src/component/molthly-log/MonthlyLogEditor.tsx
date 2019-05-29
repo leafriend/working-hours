@@ -4,16 +4,16 @@ import './MonthlyLogEditor.scss';
 
 import { LeaveType, Log } from '../../log/types';
 
-import { CaculatedLog } from './CaculatedLog';
+import { CaculatedLog, formatu } from './CaculatedLog';
 
 export interface MonthlyLogEditorProps {
   calculatedLog: CaculatedLog;
   onLogChange: (log: Log) => void,
 }
 
-type LeaveTypeLog = Pick<CaculatedLog, 'leaveType'>;
-type StartedAtLog = Pick<CaculatedLog, 'startedAt'>;
-type FinishedAtLog = Pick<CaculatedLog, 'finishedAt'>;
+type LeaveTypeLog = Pick<Log, 'leaveType'>;
+type StartedAtLog = Pick<Log, 'startedAt'>;
+type FinishedAtLog = Pick<Log, 'finishedAt'>;
 type PartialLog = LeaveTypeLog | StartedAtLog | FinishedAtLog;
 
 export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactElement {
@@ -24,7 +24,11 @@ export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactEle
 
   function handleChange(partial: PartialLog) {
     const log = {
-      ...props.calculatedLog,
+      date: props.calculatedLog.date,
+      isHoliday: props.calculatedLog.isHoliday,
+      leaveType: props.calculatedLog.leaveType,
+      startedAt: formatu(props.calculatedLog.startedAt),
+      finishedAt: formatu(props.calculatedLog.finishedAt),
       ...partial,
     };
 
@@ -53,7 +57,7 @@ export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactEle
             disabled={disabled}
             readOnly={disabled ? false : readOnly}
             type="time"
-            value={log.startedAt || ''}
+            value={formatu(log.startedAt) || ''}
             onChange={e => handleChange({ startedAt: e.target.value || undefined })}
           />
         </label>
@@ -61,9 +65,9 @@ export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactEle
           Finished:
           <input
             disabled={disabled}
-            readOnly={disabled ? false : (readOnly || log.startedAt === '')}
+            readOnly={disabled ? false : (readOnly || log.startedAt === undefined)}
             type="time"
-            value={log.finishedAt || ''}
+            value={formatu(log.finishedAt) || ''}
             onChange={e => handleChange({ finishedAt: e.target.value || undefined })}
           />
         </label>
