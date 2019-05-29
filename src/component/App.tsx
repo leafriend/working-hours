@@ -42,7 +42,6 @@ export default function App(): ReactElement {
             case TABLE:
               return (
                 <MonthlyLog
-                  yearMonth={YEAR_MONTH}
                   holidays={HOLIDAYS}
                   logs={logs}
                   onLogsChange={handleLogsChange}
