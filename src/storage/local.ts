@@ -3,14 +3,16 @@ import { Log, LeaveType } from "../log/types";
 
 import { LogsSet } from "./types";
 
+type StoredLog = Pick<Log, 'date' | 'leaveType' | 'startedAt' | 'finishedAt'>;
+
 const HOLIDAYS = [
   '2019-05-01',
   '2019-05-06',
   '2019-06-06',
 ];
 
-interface Hash {
-  [yearMonth: string]: Log[];
+interface Hash<T> {
+  [yearMonth: string]: T[];
 }
 
 const LOCAL_STORAGE_KEY = 'logsSet';
@@ -32,20 +34,18 @@ function fill(yearMonth: string): (log: Log | null, i: number) => Log {
 
 export class LocalLogsSet implements LogsSet {
 
-  private readonly hash: Hash = {}
+  private readonly hash: Hash<Log> = {}
 
   public constructor() {
     const json = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (json === null) {
       localStorage.setItem(LOCAL_STORAGE_KEY, '{}');
     } else {
-      this.hash = JSON.parse(json);
-
-      // Old data fixing: isHoliday
-      Object.entries(this.hash).forEach(([yearMonth, logs]) => {
+      const hash: Hash<StoredLog> = JSON.parse(json);
+      Object.entries(hash).forEach(([yearMonth, logs]) => {
         this.hash[yearMonth] = logs.map(
-          ({ date, leaveType, startedAt, finishedAt}) =>
-            ({ date, isHoliday: HOLIDAYS.includes(date), leaveType, startedAt, finishedAt})
+          ({ date, leaveType, startedAt, finishedAt }) =>
+            ({ date, isHoliday: HOLIDAYS.includes(date), leaveType, startedAt, finishedAt })
         );
       });
     }
@@ -70,7 +70,14 @@ export class LocalLogsSet implements LogsSet {
         ({ date, isHoliday, leaveType, startedAt, finishedAt })
     );
 
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.hash));
+    const hash: Hash<StoredLog> = {};
+    Object.entries(this.hash).forEach(([yearMonth, logs]) => {
+      hash[yearMonth] = logs.map(
+        ({ date, leaveType, startedAt, finishedAt }) =>
+          ({ date, leaveType, startedAt, finishedAt })
+      );
+    });
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(hash));
   }
 
 }
