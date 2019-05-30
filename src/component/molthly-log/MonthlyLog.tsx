@@ -40,8 +40,9 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
 
   const [calculatedLogs, setCalculatedLogs] = useState<CaculatedLog[]>([]);
   useEffect(() => {
+    const activeDate = activeLog ? activeLog.date : TODAY;
     const calculatedLogs = convertLogsToCaculatedLogs(props.logs);
-    const activeByTodays = calculatedLogs.filter(log => log.isActive = log.date === TODAY);
+    const activeByTodays = calculatedLogs.filter(log => log.isActive = log.date === activeDate);
     if (activeByTodays.length > 0) {
       setActiveLog(activeByTodays[0]);
     } else {
