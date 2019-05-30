@@ -10,7 +10,6 @@ export interface MonthlyLogRecordProps {
 export default function MonthlyLogRecord(props: MonthlyLogRecordProps): ReactElement {
   return (
     <tr
-      id={`log-${props.log.date}`}
       className={[
         props.log.isHoliday ? 'holiday' : (
           props.log.isSunday ? 'sunday' : (

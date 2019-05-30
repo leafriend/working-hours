@@ -49,15 +49,16 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
     ));
   }, [props.logs]);
 
-  const [initialized, setInitialized] = useState(false);
   useEffect(() => {
-    if (calculatedLogs.length > 0 && !initialized) {
-      const activeDate = activeLog ? activeLog.date : TODAY;
+    if (calculatedLogs.length > 0) {
       const container = document.getElementById(`content-container`);
-      const el = document.getElementById(`log-${activeDate}`);
-      if (container && el) {
-        setInitialized(true);
-        container.scrollTo({ top: el.offsetTop });
+      const els =  document.getElementsByClassName('active');
+      if (container) {
+        if (els.length > 0) {
+          container.scrollTo({ top: (els.item(0)! as HTMLElement).offsetTop });
+        } else {
+          container.scrollTo({ top: 0 });
+        }
       }
     }
   }, [calculatedLogs]);
