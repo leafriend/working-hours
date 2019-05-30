@@ -49,7 +49,7 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
       props.logs,
       activeLog.date,
     ));
-  }, []);
+  }, [props.logs]);
 
   const [initialized, setInitialized] = useState(false);
   useEffect(() => {

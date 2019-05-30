@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 
 import './App.scss';
 
@@ -12,6 +12,10 @@ import Header from './layout/Header';
 import MonthlyLog from './molthly-log/MonthlyLog';
 
 const YEAR_MONTH = '2019-05';
+const YEAR_MONTHS = [
+  '2019-05',
+  '2019-06',
+];
 
 const TABLE = MonthlyLog.name;
 const TEXT = JsonView.name;
@@ -19,8 +23,14 @@ const TEXT = JsonView.name;
 const logsSet: LogsSet = new LocalLogsSet();
 
 export default function App(): ReactElement {
-  const [logs, setLogs] = useState(logsSet.getLogs(YEAR_MONTH));
+  const [yearMonth, setYearMonth] = useState(YEAR_MONTH);
+  const [logs, setLogs] = useState(logsSet.getLogs(yearMonth));
   const [viewMode, setViewMode] = useState(TABLE);
+
+  function handleYearMonthChange(yearMonth: string) {
+    setYearMonth(yearMonth);
+    setLogs(logsSet.getLogs(yearMonth));
+  }
 
   function handleLogsChange(logs: Log[]) {
     setLogs(logs);
@@ -30,7 +40,9 @@ export default function App(): ReactElement {
   return (
     <div className="App">
       <Header
-        yearMonth={YEAR_MONTH}
+        yearMonth={yearMonth}
+        yearMonths={YEAR_MONTHS}
+        onYearMonthChange={handleYearMonthChange}
       />
       <article>
         {(() => {
