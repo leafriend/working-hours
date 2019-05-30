@@ -74,7 +74,7 @@ export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactEle
           Finished:
           <input
             disabled={disabled}
-            readOnly={disabled ? false : (readOnly || (log && log.startedAt === undefined || true))}
+            readOnly={disabled ? false : (readOnly || (log ? log.startedAt === undefined : true))}
             type="time"
             value={finishedAt}
             onChange={e => handleChange({ finishedAt: e.target.value || undefined })}
