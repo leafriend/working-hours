@@ -39,23 +39,22 @@ export interface MonthlyLogProps {
 
 export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
 
-  const [activeLog, setActiveLog] = useState<CaculatedLog>(
-    new CaculatedLog({ date: TODAY, isHoliday: false, leaveType: LeaveType.WORK }, ACCUMULATION, true)
-  );
+  const [activeLog, setActiveLog] = useState<CaculatedLog | null>(null);
 
   const [calculatedLogs, setCalculatedLogs] = useState<CaculatedLog[]>([]);
   useEffect(() => {
     setCalculatedLogs(convertLogsToCaculatedLogs(
       props.logs,
-      activeLog.date,
+      activeLog ? activeLog.date : '',
     ));
   }, [props.logs]);
 
   const [initialized, setInitialized] = useState(false);
   useEffect(() => {
     if (calculatedLogs.length > 0 && !initialized) {
+      const activeDate = activeLog ? activeLog.date : TODAY;
       const container = document.getElementById(`content-container`);
-      const el = document.getElementById(`log-${activeLog.date}`);
+      const el = document.getElementById(`log-${activeDate}`);
       if (container && el) {
         setInitialized(true);
         container.scrollTo({ top: el.offsetTop });

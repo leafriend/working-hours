@@ -7,7 +7,7 @@ import { LeaveType, Log } from '../../log/types';
 import { CaculatedLog, formatu } from './CaculatedLog';
 
 export interface MonthlyLogEditorProps {
-  calculatedLog: CaculatedLog;
+  calculatedLog: CaculatedLog | null;
   onLogChange: (log: Log) => void,
 }
 
@@ -19,10 +19,14 @@ type PartialLog = LeaveTypeLog | StartedAtLog | FinishedAtLog;
 export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactElement {
   const log = props.calculatedLog
 
-  const disabled = log.isHoliday || log.isSunday || log.isSaturday;
-  const readOnly = log.leaveType === LeaveType.FULL;
+  const disabled = log === null || log.isHoliday || log.isSunday || log.isSaturday;
+  const readOnly = log !== null && (log.leaveType === LeaveType.FULL);
 
   function handleChange(partial: PartialLog) {
+    if (props.calculatedLog === null) {
+      return;
+    }
+
     const log = {
       date: props.calculatedLog.date,
       isHoliday: props.calculatedLog.isHoliday,
@@ -35,15 +39,20 @@ export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactEle
     props.onLogChange(log);
   }
 
+  const date = log ? log.date : 'Select a date';
+  const leaveType = log ? log.leaveType : LeaveType.WORK;
+  const startedAt = log ? formatu(log.startedAt) || '' : '';
+  const finishedAt = log ? formatu(log.finishedAt) || '' : '';
+
   return (
     <div className="LogEditor">
-      <h2>{log.date}</h2>
+      <h2>{date}</h2>
       <div className="form-group">
         <label>
           Leave Type:
           <select
             disabled={disabled}
-            value={log.leaveType}
+            value={leaveType}
             onChange={e => handleChange({ leaveType: e.target.value as LeaveType })}
           >
             <option value={LeaveType.WORK}>Work</option>
@@ -57,7 +66,7 @@ export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactEle
             disabled={disabled}
             readOnly={disabled ? false : readOnly}
             type="time"
-            value={formatu(log.startedAt) || ''}
+            value={startedAt}
             onChange={e => handleChange({ startedAt: e.target.value || undefined })}
           />
         </label>
@@ -65,9 +74,9 @@ export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactEle
           Finished:
           <input
             disabled={disabled}
-            readOnly={disabled ? false : (readOnly || log.startedAt === undefined)}
+            readOnly={disabled ? false : (readOnly || (log && log.startedAt === undefined || true))}
             type="time"
-            value={formatu(log.finishedAt) || ''}
+            value={finishedAt}
             onChange={e => handleChange({ finishedAt: e.target.value || undefined })}
           />
         </label>
