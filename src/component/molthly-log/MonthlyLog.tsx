@@ -3,7 +3,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import './MonthlyLog.scss';
 
 import { zerofill } from '../../lib';
-import { LeaveType, Log } from '../../log/types';
+import { Log } from '../../log/types';
 
 import { Accumulation, CaculatedLog } from './CaculatedLog';
 import MonthlyLogEditor from './MonthlyLogEditor';
@@ -18,14 +18,11 @@ const ACCUMULATION: Accumulation = {
   balance: 0,
 };
 
-function convertLogsToCaculatedLogs(logs: Log[], activeDate: string): CaculatedLog[] {
+function convertLogsToCaculatedLogs(logs: Log[]): CaculatedLog[] {
   let accumulation: Accumulation = ACCUMULATION;
   const calculatedLogs = Array(logs.length);
   logs.forEach((log, i) => {
-
-    const isActive = activeDate === log.date;
-
-    const calculatedLog = new CaculatedLog(log, accumulation, isActive);
+    const calculatedLog = new CaculatedLog(log, accumulation, false);
     calculatedLogs[i] = calculatedLog;
     accumulation = calculatedLog;
   })
@@ -43,10 +40,14 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
 
   const [calculatedLogs, setCalculatedLogs] = useState<CaculatedLog[]>([]);
   useEffect(() => {
-    setCalculatedLogs(convertLogsToCaculatedLogs(
-      props.logs,
-      activeLog ? activeLog.date : '',
-    ));
+    const calculatedLogs = convertLogsToCaculatedLogs(props.logs);
+    const activeByTodays = calculatedLogs.filter(log => log.isActive = log.date === TODAY);
+    if (activeByTodays.length > 0) {
+      setActiveLog(activeByTodays[0]);
+    } else {
+      setActiveLog(null);
+    }
+    setCalculatedLogs(calculatedLogs);
   }, [props.logs]);
 
   useEffect(() => {
