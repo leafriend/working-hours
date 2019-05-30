@@ -41,11 +41,24 @@ export class LocalLogsSet implements LogsSet {
     if (json === null) {
       localStorage.setItem(LOCAL_STORAGE_KEY, '{}');
     } else {
-      const hash: Hash<StoredLog> = JSON.parse(json);
+      const hash: Hash<StoredLog | null> = JSON.parse(json);
       Object.entries(hash).forEach(([yearMonth, logs]) => {
         this.hash[yearMonth] = logs.map(
-          ({ date, leaveType, startedAt, finishedAt }) =>
-            ({ date, isHoliday: HOLIDAYS.includes(date), leaveType, startedAt, finishedAt })
+          (log, i) => {
+            if (log === null) {
+              const date = `${yearMonth}-${zerofill(i + 1)}`;
+              return {
+                date,
+                isHoliday: HOLIDAYS.includes(date),
+                leaveType: LeaveType.WORK,
+              }
+            } else {
+              return {
+                ...log,
+                isHoliday: HOLIDAYS.includes(log.date),
+              }
+            }
+          }
         );
       });
     }
