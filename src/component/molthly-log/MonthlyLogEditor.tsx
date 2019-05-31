@@ -1,4 +1,4 @@
-import React, { ReactElement, Fragment } from 'react';
+import React, { ReactElement } from 'react';
 
 import './MonthlyLogEditor.scss';
 
@@ -51,13 +51,13 @@ export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactEle
       <div className="heading">
         <h2>{date}</h2>
         {log !== null && log.date === TODAY ? null : (
-        <a
-          href={`#log-${TODAY}`}
-          onClick={e => {
-            e.preventDefault();
-            props.onActivate(TODAY);
-          }}
-        >Today</a>
+          <a
+            href={`#log-${TODAY}`}
+            onClick={e => {
+              e.preventDefault();
+              props.onActivate(TODAY);
+            }}
+          >Today</a>
         )}
       </div>
       <div className="form-group">

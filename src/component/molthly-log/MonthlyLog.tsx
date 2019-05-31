@@ -66,9 +66,7 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
     const container = document.getElementById(`content-container`);
     if (container) {
       if (scrollTopSet[yearMonth] === undefined ) {
-        console.log('scrollTop is undefined')
         const els = document.getElementsByClassName('active');
-        console.log('els.length', els)
         if (els.length > 0) {
           container.scrollTo({ top: (els.item(0)! as HTMLElement).offsetTop });
         } else {
