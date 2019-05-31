@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { CaculatedLog, formatu } from './CaculatedLog';
+import { TODAY } from './MonthlyLog';
 
 export interface MonthlyLogRecordProps {
   log: Readonly<CaculatedLog>;
@@ -13,9 +14,12 @@ export default function MonthlyLogRecord(props: MonthlyLogRecordProps): ReactEle
       className={[
         props.log.isHoliday ? 'holiday' : (
           props.log.isSunday ? 'sunday' : (
-            props.log.isSaturday ? 'saturday' : ''
+            props.log.isSaturday ? 'saturday' : 'weekday'
           )
         ),
+        props.log.date < TODAY ? 'past' : '',
+        props.log.date > TODAY ? 'future' : '',
+        props.log.date === TODAY ? 'today' : '',
         props.log.isActive ? 'active' : '',
       ].join(' ').replace(/ +/g, ' ').trim()}
       onClick={() => props.onActivate(props.log.date)}
