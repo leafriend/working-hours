@@ -50,6 +50,7 @@ export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactEle
     <div className="LogEditor">
       <div className="heading">
         <h2>{date}</h2>
+        {log !== null && log.date === TODAY ? null : (
         <a
           href={`#log-${TODAY}`}
           onClick={e => {
@@ -57,6 +58,7 @@ export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactEle
             props.onActivate(TODAY);
           }}
         >Today</a>
+        )}
       </div>
       <div className="form-group">
         <label>
