@@ -10,15 +10,33 @@ import JsonView from './json-view/JsonView';
 import Footer from './layout/Footer';
 import Header from './layout/Header';
 import MonthlyLog from './molthly-log/MonthlyLog';
+import { zerofill } from '../lib';
 
-const YEAR_MONTH = '2019-05';
-const YEAR_MONTHS = [
-  '2019-05',
-  '2019-06',
-];
+const NOW = new Date();
+const LOCAL_NOW = new Date(NOW.getTime() - NOW.getTimezoneOffset() * 1000 * 60);
 
-const TABLE = MonthlyLog.name;
-const TEXT = JsonView.name;
+const YEAR_MONTH = LOCAL_NOW.toISOString().substring(0, 7);
+
+const YEAR_MONTHS = (() => {
+  const array: string[] = [];
+  const from = '2019-05';
+  const to = YEAR_MONTH;
+  for (let current = from; current <= to;) {
+    array.push(current);
+
+    let year = parseInt(current.substring(0, 4));
+    let month = parseInt(current.substring(5, 7)) + 1;
+    if (month > 12) {
+      year++;
+      month = 1;
+    }
+    current = `${year}-${zerofill(month)}`;
+  }
+  return array;
+})();
+
+const TABLE = 'Table';
+const TEXT = 'Json';
 
 const logsSet: LogsSet = new LocalLogsSet();
 
