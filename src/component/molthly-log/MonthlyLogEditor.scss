@@ -1,7 +1,20 @@
 .LogEditor {
-  h2 {
-    font-size: 1em;
+  & > .heading {
+    display: flex;
+    flex-direction: row;
     margin: 0.5em 0.5em 0 0.5em;
+    & > h2 {
+      margin: 0;
+      font-size: 1em;
+      flex: 1 1 auto;
+      justify-content: flex-start;
+      // display: inline;
+    }
+    & > a {
+      color: inherit;
+      flex: 0 0 auto;
+      justify-content: flex-end;
+    }
   }
   .form-group {
     display: flex;

@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, Fragment } from 'react';
 
 import './MonthlyLogEditor.scss';
 
@@ -46,7 +46,12 @@ export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactEle
 
   return (
     <div className="LogEditor">
-      <h2>{date}</h2>
+      <div className="heading">
+        <h2>{date}</h2>
+        <a
+          href={`#log-${TODAY}`}
+        >Today</a>
+      </div>
       <div className="form-group">
         <label>
           Leave Type:
