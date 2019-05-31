@@ -3,7 +3,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import './MonthlyLog.scss';
 
 import { zerofill } from '../../lib';
-import { Log } from '../../log/types';
+import { Log, YearMonthLog } from '../../log/types';
 
 import { Accumulation, CaculatedLog } from './CaculatedLog';
 import MonthlyLogEditor from './MonthlyLogEditor';
@@ -29,41 +29,54 @@ function convertLogsToCaculatedLogs(logs: Log[]): CaculatedLog[] {
   return calculatedLogs;
 }
 
+interface ActiveDateSet {
+  readonly [yearMonth: string]: string | undefined;
+}
+interface ScrollTopSet {
+  readonly [yearMonth: string]: number | undefined;
+}
+
 export interface MonthlyLogProps {
-  logs: Log[];
+  yearMonthLog: YearMonthLog;
   onLogsChange: (logs: Log[]) => void,
 }
 
 export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
+  const yearMonth = props.yearMonthLog.yearMonth;
 
-  const [activeLog, setActiveLog] = useState<CaculatedLog | null>(null);
+  const [activeDateSet, setActiveDateSet] = useState<ActiveDateSet>(
+    TODAY.startsWith(yearMonth)
+    ? { [yearMonth]: TODAY }
+    : {}
+  );
+  const [scrollTopSet, setScrollTopSet] = useState<ScrollTopSet>({});
 
-  const [calculatedLogs, setCalculatedLogs] = useState<CaculatedLog[]>([]);
+  const [calculatedLogs, setCalculatedLogs] = useState(convertLogsToCaculatedLogs(props.yearMonthLog.logs));
   useEffect(() => {
-    const activeDate = activeLog ? activeLog.date : TODAY;
-    const calculatedLogs = convertLogsToCaculatedLogs(props.logs);
-    const activeByTodays = calculatedLogs.filter(log => log.isActive = log.date === activeDate);
-    if (activeByTodays.length > 0) {
-      setActiveLog(activeByTodays[0]);
-    } else {
-      setActiveLog(null);
-    }
+    const activeDate = activeDateSet[yearMonth];
+
+    const calculatedLogs = convertLogsToCaculatedLogs(props.yearMonthLog.logs);
+    calculatedLogs.forEach(log => log.isActive = log.date === activeDate);
     setCalculatedLogs(calculatedLogs);
-  }, [props.logs]);
+  }, [yearMonth, props.yearMonthLog, activeDateSet]);
 
   useEffect(() => {
-    if (calculatedLogs.length > 0) {
-      const container = document.getElementById(`content-container`);
-      const els =  document.getElementsByClassName('active');
-      if (container) {
+    const container = document.getElementById(`content-container`);
+    if (container) {
+      if (scrollTopSet[yearMonth] === undefined ) {
+        console.log('scrollTop is undefined')
+        const els = document.getElementsByClassName('active');
+        console.log('els.length', els)
         if (els.length > 0) {
           container.scrollTo({ top: (els.item(0)! as HTMLElement).offsetTop });
         } else {
           container.scrollTo({ top: 0 });
         }
+      } else {
+        container.scrollTo({ top: scrollTopSet[yearMonth] });
       }
     }
-  }, [calculatedLogs]);
+  }, [yearMonth, calculatedLogs]);
 
   function handleLogChange(log: Log) {
     calculatedLogs.forEach(calculatedLog => {
@@ -77,27 +90,34 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
     props.onLogsChange(logs);
   }
 
-  function handleActivate(activeDate: string): void {
-    calculatedLogs.forEach(calculatedLog => {
-      calculatedLog.isActive = calculatedLog.date === activeDate;
-      if (calculatedLog.date === activeDate) {
-        setActiveLog(calculatedLog);
-      }
+  function updateActiveDate(activeDate: string) {
+    setActiveDateSet({
+      ...activeDateSet,
+      [yearMonth]: activeDate,
     });
-    setCalculatedLogs(calculatedLogs);
+  }
+
+  function updateScrollTop(scrollTop: number) {
+    setScrollTopSet({
+      ...scrollTopSet,
+      [yearMonth]: scrollTop,
+    });
   }
 
   return (
     <React.Fragment>
-      <div id="content-container">
+      <div
+        id="content-container"
+        onScroll={e => updateScrollTop((e.target as Element).scrollTop)}
+      >
         <MonthlyLogTable
           logs={calculatedLogs}
-          onActivate={handleActivate}
+          onActivate={updateActiveDate}
         />
       </div>
       <div>
         <MonthlyLogEditor
-          calculatedLog={activeLog}
+          calculatedLog={calculatedLogs.find(log => log.isActive) || null}
           onLogChange={handleLogChange}
         />
       </div>

@@ -50,7 +50,10 @@ export default function App(): ReactElement {
             case TABLE:
               return (
                 <MonthlyLog
-                  logs={logs}
+                  yearMonthLog={{
+                    yearMonth,
+                    logs,
+                  }}
                   onLogsChange={handleLogsChange}
                 />
               );

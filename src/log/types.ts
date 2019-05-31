@@ -11,3 +11,8 @@ export interface Log {
   readonly startedAt?: string;
   readonly finishedAt?: string;
 }
+
+export interface YearMonthLog {
+  readonly yearMonth: string;
+  readonly logs: Log[];
+}
