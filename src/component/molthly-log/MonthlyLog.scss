@@ -1,3 +1,24 @@
+.App {
+  & > article {
+    overflow-y: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    & > *:first-child {
+      flex: 1 1 auto;
+      overflow-y: scroll;
+    }
+
+    & > *:last-child {
+      flex: 0 0 auto;
+
+      background-color: hsl(0, 0%, 90%);
+      border-top: solid 1px hsl(0, 0, 85%);
+    }
+  }
+}
+
 table.monthly-logs {
   border-collapse: collapse;
   width: 100%;

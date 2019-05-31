@@ -1,33 +1,17 @@
 .App {
-  // position: absolute;
-  // top: 0;
-  // left: 0;
   width: 100%;
   height: 100%;
-  flex-direction: column;
   display: flex;
+  flex-direction: column;
 
-  header {
-    align-content: flex-start;
+  & > header {
+    flex: 0 0 auto;
   }
-  article {
-    flex: 1;
-
-    display: flex;
-    flex-direction: column;
-
-    & > :first-child {
-      flex: 1;
-      overflow-y: scroll;
-    }
-
-    & > :last-child {
-      align-content: flex-end;
-      background-color: hsl(0, 0%, 90%);
-      border-top: solid 1px hsl(0, 0, 85%);
-    }
+  & > article {
+    flex: 1 1 auto;
+    overflow-y: scroll;
   }
-  footer {
-    align-content: flex-end;
+  & > footer {
+    flex: 0 0 auto;
   }
 }
