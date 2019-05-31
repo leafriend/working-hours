@@ -11,6 +11,7 @@ import MonthlyLogTable from './MonthlyLogTable';
 
 const NOW = new Date();
 export const TODAY = `${NOW.getFullYear()}-${zerofill(NOW.getMonth() + 1)}-${zerofill(NOW.getDate())}`;
+// export const TODAY = '2019-05-28';
 
 const ACCUMULATION: Accumulation = {
   overall: 0,
@@ -39,6 +40,7 @@ interface ScrollTopSet {
 export interface MonthlyLogProps {
   yearMonthLog: YearMonthLog;
   onLogsChange: (logs: Log[]) => void,
+  onYearMonthChange: (yearMonth: string) => void;
 }
 
 export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
@@ -91,10 +93,14 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
   }
 
   function updateActiveDate(activeDate: string) {
+    const ym = activeDate.substring(0, 7);
     setActiveDateSet({
       ...activeDateSet,
-      [yearMonth]: activeDate,
+      [ym]: activeDate,
     });
+    if (!activeDate.startsWith(yearMonth)) {
+      props.onYearMonthChange(ym);
+    }
   }
 
   function updateScrollTop(scrollTop: number) {
@@ -119,6 +125,7 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
         <MonthlyLogEditor
           calculatedLog={calculatedLogs.find(log => log.isActive) || null}
           onLogChange={handleLogChange}
+          onActivate={updateActiveDate}
         />
       </div>
     </React.Fragment>

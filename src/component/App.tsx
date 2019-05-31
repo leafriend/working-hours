@@ -55,7 +55,8 @@ export default function App(): ReactElement {
                     logs,
                   }}
                   onLogsChange={handleLogsChange}
-                />
+                  onYearMonthChange={handleYearMonthChange}
+                  />
               );
             case TEXT:
               return (

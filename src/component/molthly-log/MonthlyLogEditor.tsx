@@ -5,10 +5,12 @@ import './MonthlyLogEditor.scss';
 import { LeaveType, Log } from '../../log/types';
 
 import { CaculatedLog, formatu } from './CaculatedLog';
+import { TODAY } from './MonthlyLog';
 
 export interface MonthlyLogEditorProps {
   calculatedLog: CaculatedLog | null;
   onLogChange: (log: Log) => void,
+  onActivate: (activeDate: string) => void,
 }
 
 type LeaveTypeLog = Pick<Log, 'leaveType'>;
@@ -50,6 +52,10 @@ export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactEle
         <h2>{date}</h2>
         <a
           href={`#log-${TODAY}`}
+          onClick={e => {
+            e.preventDefault();
+            props.onActivate(TODAY);
+          }}
         >Today</a>
       </div>
       <div className="form-group">
