@@ -19,18 +19,76 @@
   }
 }
 
+$SUNDAY: hsl(0deg, 100%, 95%);
+$SATURDAY: hsl(210deg, 100%, 95%);
+$ACTIVE: hsl(60deg, 100%, 90%);
+
 table.monthly-logs {
   border-collapse: collapse;
   width: 100%;
-  th,
-  td {
-    border-collapse: collapse;
-    height: 2em;
-    &:first-child {
-      padding-left: 0.25em;
+  tr {
+    &.future {
+      background-color: scale-color($color: hsl(0deg, 0%, 100%), $saturation: -20%, $lightness: -5%);
     }
-    &:last-child {
-      padding-right: 0.5em;
+    th,
+    td {
+      box-sizing: border-box;
+      border-collapse: collapse;
+      border-style: solid;
+      border-color: hsl(0, 0%, 90%);
+      border-width: 0;
+      border-top-width: 1px;
+      border-bottom-width: 1px;
+      height: 2rem;
+      &:first-child {
+        padding-left: 0.5rem;
+      }
+      &:last-child {
+        padding-right: 0.5rem;
+      }
+    }
+    td {
+      color: hsl(0deg, 0%, 50%);
+    }
+  }
+
+  tr.holiday,
+  tr.sunday {
+    background-color: $SUNDAY;
+    &.future {
+      background-color: scale-color($color: $SUNDAY, $saturation: -20%, $lightness: -5%);
+    }
+    td {
+      color: scale-color($color: $SUNDAY, $saturation: -20%, $lightness: -10%);
+    }
+    &.active {
+      background-color: mix($SUNDAY, $ACTIVE);
+      td {
+        color: scale-color($color: mix($SUNDAY, $ACTIVE), $saturation: -20%, $lightness: -10%);
+      }
+    }
+  }
+
+  tr.saturday {
+    background-color: $SATURDAY;
+    &.future {
+      background-color: scale-color($color: $SATURDAY, $saturation: -20%, $lightness: -5%);
+    }
+    td {
+      color: scale-color($color: $SATURDAY, $saturation: -20%, $lightness: -10%);
+    }
+    &.active {
+      background-color: mix($SATURDAY, $ACTIVE);
+      td {
+        color: scale-color($color: mix($SATURDAY, $ACTIVE), $saturation: -20%, $lightness: -10%);
+      }
+    }
+  }
+
+  tr.active {
+    background-color: $ACTIVE;
+    td {
+      color: mix(hsl(0deg, 0%, 0%), $ACTIVE, 90%);
     }
   }
 }
@@ -39,35 +97,4 @@ td.date {
 }
 td.time {
   text-align: right;
-}
-$SUNDAY: rgb(255, 225, 225);
-$SATURDAY: rgb(225, 240, 255);
-$ACTIVE: rgb(255, 255, 210);
-tr.holiday,
-tr.sunday {
-  background-color: $SUNDAY;
-  &.active {
-    background-color: mix($SUNDAY, $ACTIVE);
-    td {
-      border-top: 1px solid darken(mix($SUNDAY, $ACTIVE), 50%);
-      border-bottom: 1px solid darken(mix($SUNDAY, $ACTIVE), 50%);
-    }
-  }
-}
-tr.saturday {
-  background-color: $SATURDAY;
-  &.active {
-    background-color: mix($SATURDAY, $ACTIVE);
-    td {
-      border-top: 1px solid darken(mix($SATURDAY, $ACTIVE), 50%);
-      border-bottom: 1px solid darken(mix($SATURDAY, $ACTIVE), 50%);
-    }
-  }
-}
-tr.active {
-  background-color: $ACTIVE;
-  td {
-    border-top: 1px solid darken($ACTIVE, 50%);
-    border-bottom: 1px solid darken($ACTIVE, 50%);
-  }
 }
