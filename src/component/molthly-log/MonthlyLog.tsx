@@ -65,7 +65,7 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
   useEffect(() => {
     const container = document.getElementById(`content-container`);
     if (container) {
-      if (scrollTopSet[yearMonth] === undefined ) {
+      if (scrollTopSet[yearMonth] === undefined) {
         const els = document.getElementsByClassName('active');
         if (els.length > 0) {
           container.scrollTo({ top: (els.item(0)! as HTMLElement).offsetTop });
@@ -90,7 +90,7 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
     props.onLogsChange(logs);
   }
 
-  function updateActiveDate(activeDate: string) {
+  function updateActiveDate(activeDate: string, scroll: boolean = false) {
     const ym = activeDate.substring(0, 7);
     setActiveDateSet({
       ...activeDateSet,
@@ -98,6 +98,12 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
     });
     if (!activeDate.startsWith(yearMonth)) {
       props.onYearMonthChange(ym);
+    }
+    if (scroll) {
+      setScrollTopSet({
+        ...scrollTopSet,
+        [ym]: undefined,
+      });
     }
   }
 

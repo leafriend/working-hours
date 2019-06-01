@@ -10,7 +10,7 @@ import { TODAY } from './MonthlyLog';
 export interface MonthlyLogEditorProps {
   calculatedLog: CaculatedLog | null;
   onLogChange: (log: Log) => void,
-  onActivate: (activeDate: string) => void,
+  onActivate: (activeDate: string, scroll: boolean) => void,
 }
 
 type LeaveTypeLog = Pick<Log, 'leaveType'>;
@@ -55,7 +55,7 @@ export default function MonthlyLogEditor(props: MonthlyLogEditorProps): ReactEle
             href={`#log-${TODAY}`}
             onClick={e => {
               e.preventDefault();
-              props.onActivate(TODAY);
+              props.onActivate(TODAY, true);
             }}
           >Today</a>
         )}
