@@ -47,8 +47,8 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
 
   const [activeDateSet, setActiveDateSet] = useState<ActiveDateSet>(
     TODAY.startsWith(yearMonth)
-    ? { [yearMonth]: TODAY }
-    : {}
+      ? { [yearMonth]: TODAY }
+      : {}
   );
   const [scrollTopSet, setScrollTopSet] = useState<ScrollTopSet>({});
 
@@ -116,7 +116,6 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
   return (
     <React.Fragment>
       <div
-        id="content-container"
         onScroll={e => updateScrollTop((e.target as Element).scrollTop)}
       >
         <MonthlyLogTable

@@ -26,7 +26,33 @@ $ACTIVE: hsl(60deg, 100%, 90%);
 table.monthly-logs {
   border-collapse: collapse;
   width: 100%;
+
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  & > thead {
+    flex: 0 0 auto;
+    width: 100%;
+    background-color: hsl(0, 0%, 90%);
+    border-bottom: solid 1px hsl(0, 0, 85%);
+  }
+
+  & > tbody {
+    flex: 1 1 auto;
+    width: 100%;
+    overflow-y: scroll;
+  }
+
   tr {
+
+    display: flex;
+    flex-direction: row;
+    & > th,
+    & > td {
+      flex: 1;
+    }
+
     &.future {
       background-color: scale-color($color: hsl(0deg, 0%, 100%), $saturation: -20%, $lightness: -5%);
     }
@@ -37,9 +63,8 @@ table.monthly-logs {
       border-style: solid;
       border-color: hsl(0, 0%, 90%);
       border-width: 0;
-      border-top-width: 1px;
-      border-bottom-width: 1px;
-      height: 2rem;
+      padding: 0.5em 0;
+      line-height: 1em;
       &:first-child {
         padding-left: 0.5rem;
       }
@@ -49,6 +74,7 @@ table.monthly-logs {
     }
     td {
       color: hsl(0deg, 0%, 50%);
+      border-bottom-width: 1px;
     }
   }
 

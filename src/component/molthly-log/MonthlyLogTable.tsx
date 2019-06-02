@@ -24,7 +24,7 @@ export default function MonthlyLogTable(props: MonthlyLogTableProps): ReactEleme
           <th className="time">Bal.</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="content-container">
         {props.logs.map(log => (
           <MonthlyLogRecord
             key={log.date}
