@@ -15,13 +15,13 @@ export default function MonthlyLogTable(props: MonthlyLogTableProps): ReactEleme
       <thead>
         <tr>
           <th className="date">D.</th>
-          <th>Leave</th>
-          <th className="time">Start</th>
-          <th className="time">Fin.</th>
-          <th className="time">Work</th>
-          <th className="time">All</th>
-          <th className="time">Target</th>
-          <th className="time">Bal.</th>
+          <th className="leave">Leave</th>
+          <th className="startedAt time">Start</th>
+          <th className="finishedAt time">Fin.</th>
+          <th className="working time">Work</th>
+          <th className="overall time">All</th>
+          <th className="target time">Target</th>
+          <th className="balance time">Bal.</th>
         </tr>
       </thead>
       <tbody id="content-container">

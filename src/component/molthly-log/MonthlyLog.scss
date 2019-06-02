@@ -48,10 +48,6 @@ table.monthly-logs {
 
     display: flex;
     flex-direction: row;
-    & > th,
-    & > td {
-      flex: 1;
-    }
 
     &.future {
       background-color: scale-color($color: hsl(0deg, 0%, 100%), $saturation: -20%, $lightness: -5%);
@@ -63,7 +59,7 @@ table.monthly-logs {
       border-style: solid;
       border-color: hsl(0, 0%, 90%);
       border-width: 0;
-      padding: 0.5em 0;
+      padding: 0.5em 0.25em;
       line-height: 1em;
       &:first-child {
         padding-left: 0.5rem;
@@ -76,6 +72,14 @@ table.monthly-logs {
       color: hsl(0deg, 0%, 50%);
       border-bottom-width: 1px;
     }
+    .date       { flex: 32 32 32px; }
+    .leave      { flex: 60 60 60px; }
+    .startedAt  { flex: 52 52 52px; }
+    .finishedAt { flex: 52 52 52px; }
+    .working    { flex: 52 52 52px; }
+    .overall    { flex: 58 58 58px; }
+    .target     { flex: 58 58 58px; }
+    .balance    { flex: 52 52 52px; }
   }
 
   tr.holiday,
