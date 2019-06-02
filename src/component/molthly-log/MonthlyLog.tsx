@@ -11,7 +11,6 @@ import MonthlyLogTable from './MonthlyLogTable';
 
 const NOW = new Date();
 export const TODAY = `${NOW.getFullYear()}-${zerofill(NOW.getMonth() + 1)}-${zerofill(NOW.getDate())}`;
-// export const TODAY = '2019-05-28';
 
 const ACCUMULATION: Accumulation = {
   overall: 0,
