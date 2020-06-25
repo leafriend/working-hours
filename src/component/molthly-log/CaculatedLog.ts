@@ -104,7 +104,13 @@ export class CaculatedLog {
             return total - (30 * (1 - 1));
 
           } else if (total < (4.5 * 2) * 60) {
-            return total - (30 * (2 - 1));
+            if ('2020-06-15' <= this.date) {
+              // From 2019-06-15, they deduct 60 min for rest
+              // even total staying time is less than 9 hours
+              return total - (30 * (3 - 1));
+            } else {
+              return total - (30 * (2 - 1));
+            }
 
           } else if (total < (4.5 * 3) * 60) {
             return total - (30 * (3 - 1));
