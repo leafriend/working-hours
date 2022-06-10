@@ -10,6 +10,7 @@ export interface Log {
   readonly leaveType: LeaveType;
   readonly startedAt?: string;
   readonly finishedAt?: string;
+  readonly rest?: string;
 }
 
 export interface YearMonthLog {
