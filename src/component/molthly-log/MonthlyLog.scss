@@ -59,7 +59,7 @@ table.monthly-logs {
       border-style: solid;
       border-color: hsl(0, 0%, 90%);
       border-width: 0;
-      padding: 0.5em 0.25em;
+      padding: 0.5em 0.125em;
       line-height: 1em;
       &:first-child {
         padding-left: 0.5rem;
@@ -72,14 +72,14 @@ table.monthly-logs {
       color: hsl(0deg, 0%, 50%);
       border-bottom-width: 1px;
     }
-    .date       { flex: 32 32 32px; }
-    .leave      { flex: 60 60 60px; }
-    .startedAt  { flex: 52 52 52px; }
-    .finishedAt { flex: 52 52 52px; }
-    .working    { flex: 52 52 52px; }
-    .overall    { flex: 58 58 58px; }
-    .target     { flex: 58 58 58px; }
-    .balance    { flex: 52 52 52px; }
+    .date       { flex: 0 0 28px; }
+    .leave      { flex: 1 0 auto; }
+    .startedAt  { flex: 0 0 44px; }
+    .finishedAt { flex: 0 0 44px; }
+    .working    { flex: 0 0 44px; }
+    .overall    { flex: 0 0 52px; }
+    .target     { flex: 0 0 52px; }
+    .balance    { flex: 0 0 54px; }
   }
 
   tr.holiday,
