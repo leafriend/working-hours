@@ -26,7 +26,7 @@ export default function MonthlyLogRecord(props: MonthlyLogRecordProps): ReactEle
       onClick={() => props.onActivate(props.log.date)}
     >
       <td className="date">{new Date(props.log.date).getDate()}</td>
-      <td className="leave">{props.log.leaveType}</td>
+      <td className="leave">{props.log.leaveType.toString().substring(0, 1)}</td>
       <td className="startedAt time">{formatu(props.log.startedAt) || ''}</td>
       <td className="finishedAt time">{formatu(props.log.finishedAt) || ''}</td>
       <td className="working time">{formatu(props.log.working) || ''}</td>
