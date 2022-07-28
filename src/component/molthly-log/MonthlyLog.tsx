@@ -76,7 +76,7 @@ export default function MonthlyLog(props: MonthlyLogProps): ReactElement {
         container.scrollTo({ top: scrollTopSet[yearMonth] });
       }
     }
-  }, [yearMonth, calculatedLogs]);
+  }, [yearMonth, calculatedLogs, scrollTopSet]);
 
   function handleLogChange(log: Log) {
     calculatedLogs.forEach(calculatedLog => {
